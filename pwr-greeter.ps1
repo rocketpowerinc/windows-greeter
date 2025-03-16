@@ -16,8 +16,8 @@
     <Window.Resources>
         <!-- Define gradient and shadow styles -->
         <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="#282c34" Offset="0.0"/> <!-- if I want Cyan gradient #00FFFF -->
-            <GradientStop Color="#282c34" Offset="1.0"/> <!-- if I want Teal gradient #008B8B -->
+            <GradientStop Color="#2b2b2b" Offset="0.0"/> <!-- if I want Cyan gradient #00FFFF -->
+            <GradientStop Color="#2b2b2b" Offset="1.0"/> <!-- if I want Teal gradient #008B8B -->
         </LinearGradientBrush>
         <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
 
