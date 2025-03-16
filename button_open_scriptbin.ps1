@@ -8,7 +8,7 @@ if (Test-Path -Path $downloadPath) {
 }
 
 # Clone the repository
-git clone $repoUrl $downloadPath -ErrorAction Stop
+git clone $repoUrl $downloadPath
 
 # Copy scripts to a target directory
 $localBinPath = "$env:USERPROFILE\Bin"
