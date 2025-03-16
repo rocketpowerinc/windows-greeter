@@ -10,7 +10,7 @@
   $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Modern WPF UI"
+        Title="pwr-greeter"
         Height="700" Width="600"
         Background="#2B2B2B"> <!-- Windows 11-like dark gray -->
     <Window.Resources>
