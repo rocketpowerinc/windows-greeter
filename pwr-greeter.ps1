@@ -31,7 +31,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-            <TextBlock Text="🚀⚡ Power Greeter - Cyberpunk Edition ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
         </Label>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
