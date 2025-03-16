@@ -2,7 +2,7 @@
   # Import necessary assemblies
   Add-Type -AssemblyName PresentationFramework
 
-
+  #* Asset Paths
   $firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
 
 
