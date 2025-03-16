@@ -71,7 +71,7 @@ public class ButtonState {
     @{ Text = "📝 Dotfiles"; Action = "cmd:notepad" },
     @{ Text = "📁 Directories"; Action = "cmd:explorer" },
     @{ Text = "💻 Titus WinUtil"; Action = 'cmd:pwsh -Command "irm ""https://christitus.com/win"" | iex"' },
-    @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
+    @{ Text = "🗑️Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
     @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
 
