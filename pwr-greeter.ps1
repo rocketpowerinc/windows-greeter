@@ -72,7 +72,7 @@ public class ButtonState {
     @{ Text = "📁 Directories"; Action = "cmd:explorer" },
     @{ Text = "💻 Titus WinUtil"; Action = 'cmd:pwsh -Command "irm ""https://christitus.com/win"" | iex"' },
     @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
-    @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
+    @{ Text = "🔒 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
 
 
@@ -88,7 +88,7 @@ public class ButtonState {
 
   # Add a modern-looking header with lightning bolts
   $HeaderLabel = New-Object System.Windows.Forms.Label
-  $HeaderLabel.Text = "⚡️ Modern Dashboard ⚡️"
+  $HeaderLabel.Text = "🚀⚡️ Welcome to the Power Greeter ⚡️🚀"
   $HeaderLabel.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 18, [System.Drawing.FontStyle]::Bold)
   $HeaderLabel.ForeColor = [System.Drawing.Color]::Yellow
   $HeaderLabel.AutoSize = $true
@@ -99,4 +99,3 @@ public class ButtonState {
   # Show the form
   $Form.ShowDialog()
 }
-
