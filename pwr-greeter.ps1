@@ -36,7 +36,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
             <Button x:Name="ReadMeButton" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"
+                    Background="{StaticResource ButtonBackground}" Foreground="Grey" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"
                     ToolTip="Open the ReadMe documentation.">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="20" Height="20" Margin="5,0,10,0"
