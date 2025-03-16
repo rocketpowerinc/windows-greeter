@@ -20,7 +20,7 @@
         <!-- Define gradient and shadow styles -->
         <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#00FFFF" Offset="0.0"/> <!-- Grey gradient -->
-            <GradientStop Color="#008B8B" Offset="1.0"/> <!-- Teal gradient -->
+            <GradientStop Color="#008B8B" Offset="1.0"/> <!-- Grey gradient -->
         </LinearGradientBrush>
         <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
     </Window.Resources>
