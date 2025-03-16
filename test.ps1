@@ -8,7 +8,7 @@
     $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
   }
 
-  $firefoxImagePath = "C:\Users\rocket\Github\Assets-Icons\selfhst icons\png\firefox.png"
+  $firefoxImagePath = Join-Path -Path $scriptRoot -ChildPath ".Assets\firefox.png"
 
   # Load the XAML with enhanced design
   $xaml = [xml]@"

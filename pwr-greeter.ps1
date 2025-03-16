@@ -2,11 +2,6 @@
   # Import necessary assemblies
   Add-Type -AssemblyName PresentationFramework
 
-  # Define constants for paths and URLs
-  $scriptRoot = $PSScriptRoot
-  if (-not $scriptRoot) {
-    $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
-  }
 
   $firefoxImagePath = "C:\Users\rocket\Github\Assets-Icons\selfhst icons\png\firefox.png"
 
