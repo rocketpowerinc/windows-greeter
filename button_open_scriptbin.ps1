@@ -16,10 +16,10 @@
   New-Item -ItemType Directory -Force -Path $localBinPath | Out-Null
   Copy-Item -Path "$downloadPath\Windows\*" -Destination $localBinPath -Recurse -Force
 
-  # Open a custom file dialog to select a script from the target directory
+  # Open a file dialog to select a script from the target directory
   Add-Type -AssemblyName System.Windows.Forms
 
-  # Create a new file dialog
+  # Create a file dialog
   $openFileDialog = New-Object System.Windows.Forms.OpenFileDialog
   $openFileDialog.InitialDirectory = $localBinPath
   $openFileDialog.Filter = "PowerShell Scripts (*.ps1)|*.ps1|All Files (*.*)|*.*"
@@ -28,55 +28,61 @@
   if ($openFileDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
     $selectedScript = $openFileDialog.FileName
 
-    # Custom Windows Form for script actions
+    # Local variable to track the user's action
+    $userAction = $null
+
+    # Create a custom form for script actions
     $form = New-Object System.Windows.Forms.Form
     $form.Text = "Script Action"
     $form.Size = New-Object System.Drawing.Size(300, 150)
     $form.StartPosition = "CenterScreen"
 
-    # Add label
+    # Add a label
     $label = New-Object System.Windows.Forms.Label
     $label.Text = "What would you like to do with the script?"
     $label.AutoSize = $true
     $label.Location = New-Object System.Drawing.Point(50, 20)
     $form.Controls.Add($label)
 
-    # Add buttons
+    # Add "Read" button
     $readButton = New-Object System.Windows.Forms.Button
     $readButton.Text = "Read"
     $readButton.Location = New-Object System.Drawing.Point(30, 60)
     $readButton.Add_Click({
-        $global:userAction = "Read"
+        $form.Tag = "Read"
         $form.Close()
       })
     $form.Controls.Add($readButton)
 
+    # Add "Run" button
     $runButton = New-Object System.Windows.Forms.Button
     $runButton.Text = "Run"
     $runButton.Location = New-Object System.Drawing.Point(120, 60)
     $runButton.Add_Click({
-        $global:userAction = "Run"
+        $form.Tag = "Run"
         $form.Close()
       })
     $form.Controls.Add($runButton)
 
+    # Add "Cancel" button
     $cancelButton = New-Object System.Windows.Forms.Button
     $cancelButton.Text = "Cancel"
     $cancelButton.Location = New-Object System.Drawing.Point(210, 60)
     $cancelButton.Add_Click({
-        $global:userAction = "Cancel"
+        $form.Tag = "Cancel"
         $form.Close()
       })
     $form.Controls.Add($cancelButton)
 
-    # Show the form
+    # Show the custom form and capture the result
     $form.ShowDialog()
+    $userAction = $form.Tag
 
     # Perform actions based on user choice
-    if ($global:userAction -eq "Read") {
+    if ($userAction -eq "Read") {
       notepad.exe $selectedScript
     }
-    elseif ($global:userAction -eq "Run") {
+    elseif ($userAction -eq "Run") {
       Start-Process pwsh.exe -ArgumentList "-File", $selectedScript -NoNewWindow
     }
   }
