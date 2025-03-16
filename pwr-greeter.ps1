@@ -48,6 +48,7 @@ public class ButtonState {
       })
 
     # Click action
+    # Click action
     $Button.Add_Click({
         if ($this.Tag.Action.StartsWith("cmd:")) {
           $command = $this.Tag.Action.Substring(4)
@@ -58,29 +59,32 @@ public class ButtonState {
         }
       })
 
-    # Button configurations
-    $ButtonData = @(
-      @{ Text = "📖 ReadMe"; Action = "https://www.xbox.com" },
-      @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
-      @{ Text = "🖥️ Task Manager"; Action = "cmd:taskmgr" },
-      @{ Text = "⚙️ System Settings"; Action = "cmd:ms-settings:" },
-      @{ Text = "📝 Notepad"; Action = "cmd:notepad" },
-      @{ Text = "📁 File Explorer"; Action = "cmd:explorer" },
-      @{ Text = "🧮 Calculator"; Action = "cmd:calc" },
-      @{ Text = "💻 PowerShell"; Action = "cmd:powershell" },
-      @{ Text = "🗑️ Recycle Bin"; Action = "cmd:shell:RecycleBinFolder" },
-      @{ Text = "🌐 Network Settings"; Action = "cmd:control ncpa.cpl" }
-    )
-
-    # Add buttons to form
-    $yPos = 20
-    foreach ($ButtonInfo in $ButtonData) {
-      $Button = New-Button -Text $ButtonInfo.Text -Action $ButtonInfo.Action
-      $Button.Location = New-Object System.Drawing.Point(160, $yPos)
-      $Form.Controls.Add($Button)
-      $yPos += 55
-    }
-
-    # Show the form
-    $Form.ShowDialog()
+    return $Button
   }
+
+  # Button configurations
+  $ButtonData = @(
+    @{ Text = "📖 ReadMe"; Action = "https://www.xbox.com" },
+    @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
+    @{ Text = "🖥️ Task Manager"; Action = "cmd:taskmgr" },
+    @{ Text = "⚙️ System Settings"; Action = "cmd:ms-settings:" },
+    @{ Text = "📝 Notepad"; Action = "cmd:notepad" },
+    @{ Text = "📁 File Explorer"; Action = "cmd:explorer" },
+    @{ Text = "🧮 Calculator"; Action = "cmd:calc" },
+    @{ Text = "💻 PowerShell"; Action = "cmd:powershell" },
+    @{ Text = "🗑️ Recycle Bin"; Action = "cmd:shell:RecycleBinFolder" },
+    @{ Text = "🌐 Network Settings"; Action = "cmd:control ncpa.cpl" }
+  )
+
+  # Add buttons to form
+  $yPos = 20
+  foreach ($ButtonInfo in $ButtonData) {
+    $Button = New-Button -Text $ButtonInfo.Text -Action $ButtonInfo.Action
+    $Button.Location = New-Object System.Drawing.Point(160, $yPos)
+    $Form.Controls.Add($Button)
+    $yPos += 55
+  }
+
+  # Show the form
+  $Form.ShowDialog()
+}
