@@ -72,7 +72,31 @@
       Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
     })
 
-  # Toggle theme functionality
+
+  $window.FindName("UniGetUIButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_UniGetUI.ps1')
+    })
+
+  $window.FindName("ReadMeButton").Add_Click({
+      Start-Process "notepad"
+    })
+
+  $window.FindName("DirectoriesButton").Add_Click({
+      Start-Process "explorer"
+    })
+
+  $window.FindName("TitusWinUtilButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
+    })
+
+  $window.FindName("ScriptBinButton").Add_Click({
+      Start-Process "shell:RecycleBinFolder"
+    })
+
+  $window.FindName("MembersOnlyButton").Add_Click({
+      Start-Process "control" "ncpa.cpl"
+    })
+
   $window.FindName("ToggleThemeButton").Add_Click({
       # Check the current background color
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
