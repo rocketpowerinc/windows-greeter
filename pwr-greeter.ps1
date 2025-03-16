@@ -52,9 +52,11 @@ public class ButtonState {
     $Button.Add_Click({
         if ($this.Tag.Action.StartsWith("cmd:")) {
           $command = $this.Tag.Action.Substring(4)
+          Write-Host "Executing command: $command"
           Invoke-Expression $command
         }
         else {
+          Write-Host "Opening URL: $($this.Tag.Action)"
           Start-Process "firefox" $this.Tag.Action
         }
       })
