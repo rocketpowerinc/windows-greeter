@@ -15,7 +15,7 @@ public class ButtonState {
   $Form.Text = "Modern WinForm UI"
   $Form.Size = New-Object System.Drawing.Size(600, 700)
   $Form.StartPosition = "CenterScreen"
-  $Form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
+  $Form.BackColor = [System.Drawing.Color]::FromArgb(25, 25, 25) # Darker background
 
   # Function to create a button
   Function New-Button {
@@ -29,7 +29,7 @@ public class ButtonState {
     $Button.Size = New-Object System.Drawing.Size(260, 45)
     $Button.FlatStyle = "Flat"
     $Button.FlatAppearance.BorderSize = 0
-    $Button.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
+    $Button.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40) # Slightly lighter button background
     $Button.ForeColor = [System.Drawing.Color]::White
     $Button.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 11, [System.Drawing.FontStyle]::Bold)
 
@@ -41,13 +41,12 @@ public class ButtonState {
 
     # Hover effects
     $Button.Add_MouseEnter({
-        $this.BackColor = [System.Drawing.Color]::FromArgb(70, 130, 180)
+        $this.BackColor = [System.Drawing.Color]::FromArgb(70, 130, 180) # Blue hover effect
       })
     $Button.Add_MouseLeave({
         $this.BackColor = $this.Tag.OriginalColor
       })
 
-    # Click action
     # Click action
     $Button.Add_Click({
         if ($this.Tag.Action.StartsWith("cmd:")) {
@@ -75,8 +74,6 @@ public class ButtonState {
     @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
 
-
-
   # Add buttons to form
   $yPos = 120
   foreach ($ButtonInfo in $ButtonData) {
@@ -94,9 +91,9 @@ public class ButtonState {
   $HeaderLabel.AutoSize = $true
   $HeaderLabel.Location = New-Object System.Drawing.Point(220, 10)
   $Form.Controls.Add($HeaderLabel)
+  # Center the header label
   $HeaderLabel.Location = New-Object System.Drawing.Point((($Form.Width - $HeaderLabel.Width) / 2), 10)
 
   # Show the form
   $Form.ShowDialog()
 }
-
