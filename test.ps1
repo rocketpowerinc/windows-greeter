@@ -7,6 +7,7 @@
   if (-not $scriptRoot) {
     $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
   }
+
   $firefoxImagePath = "C:\Users\rocket\Github\Assets-Icons\selfhst icons\png\firefox.png"
 
   # Load the XAML with enhanced design
@@ -41,7 +42,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                                <Setter Property="Background" Value="Teal" TargetName="border"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
