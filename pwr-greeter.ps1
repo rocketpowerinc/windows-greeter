@@ -77,7 +77,7 @@
       Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_UniGetUI.ps1')
     })
 
-  $window.FindName("ReadMeButton").Add_Click({
+  $window.FindName("DotfilesButton").Add_Click({
       Start-Process "notepad"
     })
 
