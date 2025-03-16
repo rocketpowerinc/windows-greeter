@@ -66,7 +66,7 @@ public class ButtonState {
 
   # Button configurations
   $ButtonData = @(
-    @{ Text = "{0} ReadMe" -f [char]0x1F4D6; Action = "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe" },
+    @{ Text = "📖 ReadMe"; Action = "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe" },
     @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
     @{ Text = "📝 Dotfiles"; Action = "cmd:notepad" },
     @{ Text = "📁 Directories"; Action = "cmd:explorer" },
@@ -74,6 +74,7 @@ public class ButtonState {
     @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
     @{ Text = "🔒 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
+
 
 
   # Add buttons to form

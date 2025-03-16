@@ -15,7 +15,7 @@ public class ButtonState {
   $Form.Text = "Modern WinForm UI"
   $Form.Size = New-Object System.Drawing.Size(600, 700)
   $Form.StartPosition = "CenterScreen"
-  $Form.BackColor = [System.Drawing.Color]::FromArgb(25, 25, 25) # Darker background
+  $Form.BackColor = [System.Drawing.Color]::FromArgb(30, 30, 30)
 
   # Function to create a button
   Function New-Button {
@@ -29,7 +29,7 @@ public class ButtonState {
     $Button.Size = New-Object System.Drawing.Size(260, 45)
     $Button.FlatStyle = "Flat"
     $Button.FlatAppearance.BorderSize = 0
-    $Button.BackColor = [System.Drawing.Color]::FromArgb(40, 40, 40) # Slightly lighter button background
+    $Button.BackColor = [System.Drawing.Color]::FromArgb(50, 50, 50)
     $Button.ForeColor = [System.Drawing.Color]::White
     $Button.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 11, [System.Drawing.FontStyle]::Bold)
 
@@ -41,7 +41,7 @@ public class ButtonState {
 
     # Hover effects
     $Button.Add_MouseEnter({
-        $this.BackColor = [System.Drawing.Color]::FromArgb(70, 130, 180) # Blue hover effect
+        $this.BackColor = [System.Drawing.Color]::FromArgb(70, 130, 180)
       })
     $Button.Add_MouseLeave({
         $this.BackColor = $this.Tag.OriginalColor
@@ -52,7 +52,8 @@ public class ButtonState {
         if ($this.Tag.Action.StartsWith("cmd:")) {
           $command = $this.Tag.Action.Substring(4)
           Write-Host "Executing command: $command"
-          Invoke-Expression $command
+          # Using Start-Process instead of Invoke-Expression for security
+          Start-Process "pwsh" "-NoProfile -Command `"$command`""
         }
         else {
           Write-Host "Opening URL: $($this.Tag.Action)"
@@ -65,13 +66,13 @@ public class ButtonState {
 
   # Button configurations
   $ButtonData = @(
-    @{ Text = "📖 ReadMe"; Action = "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe" },
+    @{ Text = "{0} ReadMe" -f [char]0x1F310; Action = "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe" },
     @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
     @{ Text = "📝 Dotfiles"; Action = "cmd:notepad" },
     @{ Text = "📁 Directories"; Action = "cmd:explorer" },
     @{ Text = "💻 Titus WinUtil"; Action = 'cmd:pwsh -Command "irm ""https://christitus.com/win"" | iex"' },
     @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
-    @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
+    @{ Text = "🔒 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
 
   # Add buttons to form
@@ -85,13 +86,12 @@ public class ButtonState {
 
   # Add a modern-looking header with lightning bolts
   $HeaderLabel = New-Object System.Windows.Forms.Label
-  $HeaderLabel.Text = "⚡️ Modern Dashboard ⚡️"
+  $HeaderLabel.Text = "🚀⚡️ Welcome to the Power Greeter ⚡️🚀"
   $HeaderLabel.Font = New-Object System.Drawing.Font("Segoe UI Emoji", 18, [System.Drawing.FontStyle]::Bold)
   $HeaderLabel.ForeColor = [System.Drawing.Color]::Yellow
   $HeaderLabel.AutoSize = $true
   $HeaderLabel.Location = New-Object System.Drawing.Point(220, 10)
   $Form.Controls.Add($HeaderLabel)
-  # Center the header label
   $HeaderLabel.Location = New-Object System.Drawing.Point((($Form.Width - $HeaderLabel.Width) / 2), 10)
 
   # Show the form
