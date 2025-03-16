@@ -1,1 +1,1 @@
-write-host "test"
+C:\Users\rocket\AppData\Local\Programs\UniGetUI\UniGetUI.exe
