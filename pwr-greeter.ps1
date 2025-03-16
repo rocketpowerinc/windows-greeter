@@ -90,7 +90,7 @@
     })
 
   $window.FindName("ScriptBinButton").Add_Click({
-      Start-Process "shell:RecycleBinFolder"
+    Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_ScriptBin.ps1')
     })
 
   $window.FindName("MembersOnlyButton").Add_Click({
