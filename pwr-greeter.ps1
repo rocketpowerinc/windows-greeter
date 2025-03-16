@@ -3,7 +3,8 @@
   Add-Type -AssemblyName PresentationFramework
 
 
-  $firefoxImagePath = "C:\Users\rocket\Github\Assets-Icons\selfhst icons\png\firefox.png"
+  $firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
+
 
   # Load the XAML with enhanced design
   $xaml = [xml]@"
