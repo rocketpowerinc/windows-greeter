@@ -5,26 +5,23 @@
   #* Asset Paths
   $firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
 
-  # Load the XAML with a custom dark toolbar and no native title bar
+
+  # Load the XAML with enhanced design
   $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="pwr-greeter"
         Height="700" Width="600"
-        Background="#2B2B2B"
-        WindowStyle="None"
-        ResizeMode="CanResizeWithGrip"
-        AllowsTransparency="True">
+        Background="#2B2B2B"> <!-- Windows 11-like dark gray -->
     <Window.Resources>
+        <!-- Define gradient and shadow styles -->
         <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Color="#2b2b2b" Offset="0.0"/>
-            <GradientStop Color="#2b2b2b" Offset="1.0"/>
+            <GradientStop Color="#2b2b2b" Offset="0.0"/> <!-- if I want Cyan gradient #00FFFF -->
+            <GradientStop Color="#2b2b2b" Offset="1.0"/> <!-- if I want Teal gradient #008B8B -->
         </LinearGradientBrush>
         <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
-        <LinearGradientBrush x:Key="ToolbarBackground" StartPoint="0,0" EndPoint="0,1">
-            <GradientStop Color="#1F1F1F" Offset="0.0"/>
-            <GradientStop Color="#2B2B2B" Offset="1.0"/>
-        </LinearGradientBrush>
+
+        <!-- Add style for Button -->
         <Style TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="12"/>
@@ -32,6 +29,7 @@
             <Setter Property="Width" Value="260"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="Margin" Value="0,10,0,0"/>
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -47,42 +45,22 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ToolbarButton" TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="30"/>
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Margin" Value="2,0,2,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
     </Window.Resources>
-    <Grid Margin="0">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
-                    <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
-                </StackPanel>
-            </Grid>
-        </Border>
-        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
+
+        <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
             <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
         </Label>
-        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
             <Button x:Name="ReadMeButton" ToolTip="Open the ReadMe documentation.">
                 <StackPanel Orientation="Horizontal">
-                    <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
+                    <Image Width="20" Height="20" Margin="5,0,10,0"
+                            Source="file:///$firefoxImagePath"/>
                     <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
@@ -102,21 +80,7 @@
   $reader = New-Object System.Xml.XmlNodeReader($xaml)
   $window = [Windows.Markup.XamlReader]::Load($reader)
 
-  # Enable dragging the window by the toolbar
-  $window.Add_MouseLeftButtonDown({
-      $window.DragMove()
-    })
-
-  # Add click actions for toolbar buttons
-  $window.FindName("MinimizeButton").Add_Click({
-      $window.WindowState = [System.Windows.WindowState]::Minimized
-    })
-
-  $window.FindName("CloseButton").Add_Click({
-      $window.Close()
-    })
-
-  # Add click actions for main buttons
+  # Add click actions
   $window.FindName("ReadMeButton").Add_Click({
       Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
     })
@@ -146,11 +110,15 @@
     })
 
   $window.FindName("ToggleThemeButton").Add_Click({
+      # Check the current background color
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
           $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+
+        # Switch to light mode (WhiteSmoke)
         $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
       }
       else {
+        # Switch to dark mode (Custom color #2B2B2B)
         $window.Background = New-Object System.Windows.Media.SolidColorBrush (
           [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
         )
