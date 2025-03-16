@@ -66,16 +66,13 @@ public class ButtonState {
 
   # Button configurations
   $ButtonData = @(
-    @{ Text = "📖 ReadMe"; Action = "https://www.xbox.com" },
+    @{ Text = "📖 ReadMe"; Action = "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe" },
     @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
-    @{ Text = "🖥️ Task Manager"; Action = "cmd:taskmgr" },
-    @{ Text = "⚙️ System Settings"; Action = "cmd:ms-settings:" },
-    @{ Text = "📝 Notepad"; Action = "cmd:notepad" },
-    @{ Text = "📁 File Explorer"; Action = "cmd:explorer" },
-    @{ Text = "🧮 Calculator"; Action = "cmd:calc" },
-    @{ Text = "💻 PowerShell"; Action = "cmd:powershell" },
-    @{ Text = "🗑️ Recycle Bin"; Action = "cmd:shell:RecycleBinFolder" },
-    @{ Text = "🌐 Network Settings"; Action = "cmd:control ncpa.cpl" }
+    @{ Text = "📝 Dotfiles"; Action = "cmd:notepad" },
+    @{ Text = "📁 Directories"; Action = "cmd:explorer" },
+    @{ Text = "💻 Titus WinUtil"; Action = "cmd:powershell" },
+    @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
+    @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
 
   # Add buttons to form
@@ -90,3 +87,4 @@ public class ButtonState {
   # Show the form
   $Form.ShowDialog()
 }
+
