@@ -20,9 +20,34 @@
         <!-- Define gradient and shadow styles -->
         <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
             <GradientStop Color="#282c34" Offset="0.0"/> <!-- if I want Cyan gradient #00FFFF -->
-            <GradientStop Color="#282c34" Offset="1.0"/> <!-- Teal gradient #008B8B -->
+            <GradientStop Color="#282c34" Offset="1.0"/> <!-- if I want Teal gradient #008B8B -->
         </LinearGradientBrush>
         <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
+
+        <!-- Add style for Button -->
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="260"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{StaticResource ButtonBackground}" Effect="{StaticResource ButtonShadow}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -35,29 +60,20 @@
         </Label>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Center">
-            <Button x:Name="ReadMeButton" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"
-                    ToolTip="Open the ReadMe documentation.">
+            <Button x:Name="ReadMeButton" ToolTip="Open the ReadMe documentation.">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="20" Height="20" Margin="5,0,10,0"
                             Source="file:///$firefoxImagePath"/>
                     <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="UniGetUIButton" Content="📦 UniGetUI + Bundles" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="DotfilesButton" Content="📝 Dotfiles" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="DirectoriesButton" Content="📁 Directories" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="TitusWinUtilButton" Content="💻 Titus WinUtil" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="ScriptBinButton" Content="🗑️ Script Bin" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="MembersOnlyButton" Content="🔒 Members Only" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-            <Button x:Name="ToggleThemeButton" Content="🌗 Toggle Dark/Light Mode" Width="260" Height="45" Margin="0,10,0,0"
-                    Background="{StaticResource ButtonBackground}" Foreground="White" FontSize="12" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+            <Button x:Name="UniGetUIButton" Content="📦 UniGetUI + Bundles"/>
+            <Button x:Name="DotfilesButton" Content="📝 Dotfiles"/>
+            <Button x:Name="DirectoriesButton" Content="📁 Directories"/>
+            <Button x:Name="TitusWinUtilButton" Content="💻 Titus WinUtil"/>
+            <Button x:Name="ScriptBinButton" Content="🗑️ Script Bin"/>
+            <Button x:Name="MembersOnlyButton" Content="🔒 Members Only"/>
+            <Button x:Name="ToggleThemeButton" Content="🌗 Toggle Dark/Light Mode"/>
         </StackPanel>
     </Grid>
 </Window>
@@ -71,7 +87,6 @@
   $window.FindName("ReadMeButton").Add_Click({
       Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
     })
-
 
   $window.FindName("UniGetUIButton").Add_Click({
       Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_UniGetUI.ps1')
@@ -90,7 +105,7 @@
     })
 
   $window.FindName("ScriptBinButton").Add_Click({
-    Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_ScriptBin.ps1')
+      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_ScriptBin.ps1')
     })
 
   $window.FindName("MembersOnlyButton").Add_Click({
@@ -101,7 +116,6 @@
       # Check the current background color
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
           $window.Background.Color.ToString() -eq "#FF2B2B2B") {
-        # Dark gray in hex (#2B2B2B)
 
         # Switch to light mode (WhiteSmoke)
         $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
@@ -113,7 +127,6 @@
         )
       }
     })
-
 
   # Show the window
   $window.ShowDialog()
