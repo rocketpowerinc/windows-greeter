@@ -7,7 +7,7 @@
   if (-not $scriptRoot) {
     $scriptRoot = Split-Path -Parent $MyInvocation.MyCommand.Definition
   }
-  $firefoxImagePath = "Assets\firefox.png"
+  $firefoxImagePath = ".\Assets\firefox.png"
 
   # Load the XAML with enhanced design
   $xaml = [xml]@"
