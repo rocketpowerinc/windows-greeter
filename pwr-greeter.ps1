@@ -70,7 +70,7 @@ public class ButtonState {
     @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
     @{ Text = "📝 Dotfiles"; Action = "cmd:notepad" },
     @{ Text = "📁 Directories"; Action = "cmd:explorer" },
-    @{ Text = "💻 Titus WinUtil"; Action = "cmd:powershell" },
+    @{ Text = "💻 Titus WinUtil"; Action = 'cmd:pwsh irm "https://christitus.com/win" | iex' },
     @{ Text = "🗑️ Script Bin"; Action = "cmd:shell:RecycleBinFolder" },
     @{ Text = "🌐 Members Only"; Action = "cmd:control ncpa.cpl" }
   )
