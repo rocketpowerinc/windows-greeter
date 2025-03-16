@@ -67,7 +67,7 @@ public class ButtonState {
   # Button configurations
   $ButtonData = @(
     @{ Text = "📖 ReadMe"; Action = "https://www.xbox.com" },
-    @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\pwr-greeter.ps1" },
+    @{ Text = "📦 UniGetUI + Bundles"; Action = "cmd:pwsh -File $PSScriptRoot\button_open_UniGetUI.ps1" },
     @{ Text = "🖥️ Task Manager"; Action = "cmd:taskmgr" },
     @{ Text = "⚙️ System Settings"; Action = "cmd:ms-settings:" },
     @{ Text = "📝 Notepad"; Action = "cmd:notepad" },
