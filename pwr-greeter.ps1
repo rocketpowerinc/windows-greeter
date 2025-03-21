@@ -92,6 +92,7 @@
             <Button x:Name="TitusWinUtilButton" Content="💻 Titus WinUtil"/>
             <Button x:Name="ScriptBinButton" Content="🗑️ Script Bin"/>
             <Button x:Name="MembersOnlyButton" Content="🔒 Members Only"/>
+            <Button x:Name="MembersOnlyButton" Content="🔒 Persistant Windows"/>
             <Button x:Name="ToggleThemeButton" Content="🌗 Toggle Dark/Light Mode"/>
         </StackPanel>
     </Grid>
@@ -142,7 +143,11 @@
     })
 
   $window.FindName("MembersOnlyButton").Add_Click({
-      Start-Process "control" "ncpa.cpl"
+      write-host "Members Only"
+    })
+
+  $window.FindName("Persistant Windows").Add_Click({
+      Start-Process pwsh -ArgumentList @('-File', (Join-Path $PSScriptRoot 'button_persistant_windows.ps1'))
     })
 
   $window.FindName("ToggleThemeButton").Add_Click({
