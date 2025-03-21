@@ -77,8 +77,10 @@
             </Grid>
         </Border>
         <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-            <TextBlock Text="Rocket Power Greeter: Batteries included (Windows Edition)" Foreground="Blue" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
         </Label>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
+            Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
         <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
             <Button x:Name="ReadMeButton" ToolTip="Open the ReadMe documentation.">
                 <StackPanel Orientation="Horizontal">
