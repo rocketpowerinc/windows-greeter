@@ -92,7 +92,7 @@
             <Button x:Name="TitusWinUtilButton" Content="💻 Titus WinUtil"/>
             <Button x:Name="ScriptBinButton" Content="🗑️ Script Bin"/>
             <Button x:Name="MembersOnlyButton" Content="🔒 Members Only"/>
-            <Button x:Name="MembersOnlyButton" Content="🔒 Persistant Windows"/>
+            <Button x:Name="PersisantWindowsButton" Content="🔒 Persistant Windows"/>
             <Button x:Name="ToggleThemeButton" Content="🌗 Toggle Dark/Light Mode"/>
         </StackPanel>
     </Grid>
