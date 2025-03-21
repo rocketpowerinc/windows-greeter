@@ -147,7 +147,7 @@
     })
 
   $window.FindName("Persistant Windows").Add_Click({
-      Start-Process pwsh -ArgumentList @('-File', (Join-Path $PSScriptRoot 'button_persistant_windows.ps1'))
+      Start-Process pwsh -ArgumentList @('-File', (Join-Path (Get-Location) 'button_persistant_windows.ps1'))
     })
 
   $window.FindName("ToggleThemeButton").Add_Click({
