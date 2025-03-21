@@ -25,6 +25,9 @@
       # Unzip the downloaded file
       Expand-Archive -Path $destinationPath -DestinationPath $extractPath -Force
 
+      # Delete the zip file after extraction
+      Remove-Item -Path $destinationPath -Force
+
       Write-Output "Installation completed. Extracted files are located in: $extractPath"
     }
     else {
