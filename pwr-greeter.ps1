@@ -81,22 +81,33 @@
         </Label>
         <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
             Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
-        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
-            <Button x:Name="ReadMeButton" ToolTip="Open the ReadMe documentation.">
+        <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0"> <!-- Added margin for padding -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
                 <StackPanel Orientation="Horizontal">
                     <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
                     <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="UniGetUIButton" Content="📦 UniGetUI + Bundles"/>
-            <Button x:Name="DotfilesButton" Content="📝 Dotfiles"/>
-            <Button x:Name="DirectoriesButton" Content="📁 Directories"/>
-            <Button x:Name="TitusWinUtilButton" Content="💻 Titus WinUtil"/>
-            <Button x:Name="ScriptBinButton" Content="🗑️ Script Bin"/>
-            <Button x:Name="MembersOnlyButton" Content="🔒 Members Only"/>
-            <Button x:Name="PersisantWindowsButton" Content="🔒 Persistant Windows"/>
-            <Button x:Name="ToggleThemeButton" Content="🌗 Toggle Dark/Light Mode"/>
-        </StackPanel>
+            <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
+            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📝 Dotfiles" Margin="10"/>
+            <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
+            <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
+            <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
+            <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
+            <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🔒 Persistant Windows" Margin="10"/>
+            <Button x:Name="ToggleThemeButton" Grid.Column="0" Grid.Row="4" Content="🌗 Toggle Dark/Light Mode" Margin="10" Grid.ColumnSpan="2"/>
+        </Grid>
     </Grid>
 </Window>
 "@
