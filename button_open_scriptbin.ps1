@@ -91,4 +91,9 @@
 
   # Clean up
   Remove-Item -Recurse -Force -Path $downloadPath
+
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor Yellow
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor Yellow
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor Yellow
+
 }
