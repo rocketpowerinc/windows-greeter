@@ -1,8 +1,8 @@
 .{
-
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor Yellow
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor Yellow
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor Yellow
+  Write-Host 'MAKE SURE TO EXPORT THESE PATHS IN notepad $PROFILE.CurrentUserAllHosts' -ForegroundColor red
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor red
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor red
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor red
 
   # Define the repository URL and the download path
   $repoUrl = "https://github.com/rocketpowerinc/scriptbin.git"
