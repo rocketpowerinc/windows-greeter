@@ -1,4 +1,9 @@
 .{
+
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor Yellow
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor Yellow
+  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor Yellow
+
   # Define the repository URL and the download path
   $repoUrl = "https://github.com/rocketpowerinc/scriptbin.git"
   $downloadPath = "$env:USERPROFILE\Downloads\scriptbin"
@@ -92,8 +97,5 @@
   # Clean up
   Remove-Item -Recurse -Force -Path $downloadPath
 
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor Yellow
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor Yellow
-  Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor Yellow
 
 }
