@@ -140,7 +140,7 @@
     })
 
   $window.FindName("DotfilesButton").Add_Click({
-      Start-Process "notepad"
+      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1')
     })
 
   $window.FindName("DirectoriesButton").Add_Click({

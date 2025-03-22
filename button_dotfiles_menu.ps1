@@ -73,10 +73,8 @@ $xaml = [xml]@"
             </Grid>
         </Border>
         <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+            <TextBlock Text="Dotfiles Menu" Foreground="White" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
         </Label>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-            Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
         <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
