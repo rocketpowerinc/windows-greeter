@@ -142,7 +142,7 @@
   $window.FindName("DotfilesButton").Add_Click({
       # Before switching content, store the original main menu grid
       $mainMenuGrid = $window.Content
-      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1', '-MainMenuGrid', $mainMenuGrid)
+      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1' -MainMenuGrid $mainMenuGrid
     })
 
   $window.FindName("DirectoriesButton").Add_Click({
