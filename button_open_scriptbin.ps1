@@ -3,6 +3,7 @@
   Write-Host '$Env:Path += ";$env:USERPROFILE\Bin"' -ForegroundColor red
   Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Templates"' -ForegroundColor red
   Write-Host '$Env:Path += ";$env:USERPROFILE\Bin\Cross-Platform-Powershell"' -ForegroundColor red
+  Write-Host 'WARNING SCRIPTS WILL BE OVERWRITTEN BUT NOT DELETED IF OMITED FROM CURRENT SCRIPTBIN SCRIPTS' -ForegroundColor red
 
   # Define the repository URL and the download path
   $repoUrl = "https://github.com/rocketpowerinc/scriptbin.git"
