@@ -140,9 +140,9 @@
     })
 
   $window.FindName("DotfilesButton").Add_Click({
-      # Before switching content, store the original main menu grid
-      $mainMenuGrid = $window.Content
-      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1' -MainMenuGrid $mainMenuGrid
+      # Store the current window content
+      $previousContent = $window.Content
+      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1' -PreviousContent $previousContent
     })
 
   $window.FindName("DirectoriesButton").Add_Click({
