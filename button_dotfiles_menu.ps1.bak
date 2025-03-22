@@ -1,9 +1,6 @@
 # Import necessary assemblies
 Add-Type -AssemblyName PresentationFramework
 
-# Asset Paths
-$firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
-
 # Load the XAML with a custom dark toolbar and no native title bar
 $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -76,10 +73,8 @@ $xaml = [xml]@"
             </Grid>
         </Border>
         <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+            <TextBlock Text="Dotfiles Menu" Foreground="White" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
         </Label>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-            Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
         <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -88,13 +83,10 @@ $xaml = [xml]@"
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10"/>
-            <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
-            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📝 Dotfiles" Margin="10"/>
+            <!-- New Buttons -->
+            <Button x:Name="CopyProfileButton" Grid.Column="0" Grid.Row="0" Content="📋 Copy PowerShell Profile" Margin="10"/>
+            <Button x:Name="WSLDotfileButton" Grid.Column="1" Grid.Row="0" Content="🖥️ WSL Bash Dotfile" Margin="10"/>
         </Grid>
     </Grid>
 </Window>
@@ -107,50 +99,25 @@ $window = [Windows.Markup.XamlReader]::Load($reader)
 # Enable dragging the window by the toolbar
 $window.Add_MouseLeftButtonDown({
     $window.DragMove()
-})
+  })
 
 # Add click actions for toolbar buttons
 $window.FindName("MinimizeButton").Add_Click({
     $window.WindowState = [System.Windows.WindowState]::Minimized
-})
+  })
 
 $window.FindName("CloseButton").Add_Click({
     $window.Close()
-})
+  })
 
-# Create the Dotfiles menu as a new Grid
-$dotfilesMenu = New-Object System.Windows.Controls.Grid
-$dotfilesMenu.Margin = "0,20,0,0"
-$dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))
-$dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))
+#*########################    DOTFILE FUNCTIONS      #########################
+$window.FindName("CopyProfileButton").Add_Click({
+    Write-Host "Place Holder"
+  })
 
-# Add buttons to the Dotfiles menu
-$copyProfileButton = New-Object System.Windows.Controls.Button
-$copyProfileButton.Content = "📋 Copy PowerShell Profile"
-$copyProfileButton.Margin = "10"
-$dotfilesMenu.Children.Add($copyProfileButton)
-[System.Windows.Controls.Grid]::SetRow($copyProfileButton, 0)
-
-$wslDotfileButton = New-Object System.Windows.Controls.Button
-$wslDotfileButton.Content = "🖥️ WSL Bash Dotfile"
-$wslDotfileButton.Margin = "10"
-$dotfilesMenu.Children.Add($wslDotfileButton)
-[System.Windows.Controls.Grid]::SetRow($wslDotfileButton, 1)
-
-# Add click actions for the Dotfiles buttons
-$copyProfileButton.Add_Click({
-    Write-Host "Place Holder for Copy Profile Action"
-})
-
-$wslDotfileButton.Add_Click({
-    Write-Host "Place Holder for WSL Dotfile Action"
-})
-
-# When the DotfilesButton is clicked, replace the main window's content
-$window.FindName("DotfilesButton").Add_Click({
-    # Replace the content with the new Dotfiles menu
-    $window.Content = $dotfilesMenu
-})
+$window.FindName("WSLDotfileButton").Add_Click({
+    Write-Host "Place Holder"
+  })
 
 # Show the window
 $window.ShowDialog()
