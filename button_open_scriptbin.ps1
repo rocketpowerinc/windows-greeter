@@ -13,8 +13,11 @@
 
   # Copy scripts to a target directory
   $localBinPath = "$env:USERPROFILE\Bin"
+  $localBinPathCrossPlatform = "$env:USERPROFILE\Bin\Cross-Platform-Powershell"
   New-Item -ItemType Directory -Force -Path $localBinPath | Out-Null
   Copy-Item -Path "$downloadPath\Windows\*" -Destination $localBinPath -Recurse -Force
+  Copy-Item -Path "$downloadPath\Cross-Platform-Powershell\*" -Destination $localBinPathCrossPlatform -Recurse -Force
+
 
   # Open a file dialog to select a script from the target directory
   Add-Type -AssemblyName System.Windows.Forms
