@@ -19,31 +19,31 @@ $textBlock.Margin = "0,10,0,20"  # Added margin to create space between the Text
 $dotfilesMenu.Children.Add($textBlock)
 [System.Windows.Controls.Grid]::SetRow($textBlock, 0)
 
-# Add or Refresh Dotfiles
-$copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
-$copy_PWSH_Profile_Button.Content = "♻️ Refresh Dotfiles"
-$copy_PWSH_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
-$dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
-[System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 1)
+# Add or Refresh Dotfiles Directory
+$refresh_Dotfiles_Button = New-Object System.Windows.Controls.Button
+$refresh_Dotfiles_Button.Content = "♻️ Refresh Dotfiles"
+$refresh_Dotfiles_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
+$dotfilesMenu.Children.Add($refresh_Dotfiles_Button)
+[System.Windows.Controls.Grid]::SetRow($refresh_Dotfiles_Button, 1)
 
 # Create buttons for Dotfiles Menu
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_PWSH_Profile_Button.Content = "📋 Source pwsh 7+ Profile"
 $copy_PWSH_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
-[System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 1)
+[System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 2)
 
 $copy_Default_Powershell_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_Default_Powershell_Profile_Button.Content = "📋 Source Powershell Profile"
 $copy_Default_Powershell_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
-[System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 2)
+[System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 3)
 
 $copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
 $copy_WSL_Bash_Dotfile_Button.Content = "📋 Source WSL bashrc"
 $copy_WSL_Bash_Dotfile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_WSL_Bash_Dotfile_Button)
-[System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 3)
+[System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 4)
 
 # Create a Back button with enhanced styling
 $backButton = New-Object System.Windows.Controls.Button
@@ -93,6 +93,13 @@ $backButton.Add_Click({
   })
 
 #*##############   Add Click Handlers for Buttons   #########################
+
+$refresh_Dotfiles_Button.Add_Click({
+  Write-Host "Copying pwsh 7+ Profile..."
+  # Add logic for copying the profile
+})
+
+
 $copy_PWSH_Profile_Button.Add_Click({
     Write-Host "Copying pwsh 7+ Profile..."
     # Add logic for copying the profile
