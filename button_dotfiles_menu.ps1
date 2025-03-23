@@ -28,22 +28,22 @@ function New-Button($content, $backgroundColor, $textColor) {
   $btn = New-Object System.Windows.Controls.Button
   $btn.Content = $content
   $btn.Margin = "10,5,10,5"  # Adjust margin for consistent spacing
-  $btn.Background = $backgroundColor  # Set the background color
-  $btn.Foreground = $textColor  # Set the text color
+  $btn.Background = [System.Windows.Media.Brushes]::$backgroundColor  # Set the background color
+  $btn.Foreground = [System.Windows.Media.Brushes]::$textColor  # Set the text color
   return $btn
 }
 
 # Create Buttons and add them to the StackPanel with custom colors
-$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles" [System.Windows.Media.Brushes]::Green [System.Windows.Media.Brushes]::White
+$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles" "Green" "White"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
-$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile" [System.Windows.Media.Brushes]::Blue [System.Windows.Media.Brushes]::White
+$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile" "Blue" "White"
 $buttonsPanel.Children.Add($copy_PWSH_Profile_Button)
 
-$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile" [System.Windows.Media.Brushes]::Orange [System.Windows.Media.Brushes]::White
+$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile" "Orange" "White"
 $buttonsPanel.Children.Add($copy_Default_Powershell_Profile_Button)
 
-$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc" [System.Windows.Media.Brushes]::Purple [System.Windows.Media.Brushes]::White
+$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc" "Purple" "White"
 $buttonsPanel.Children.Add($copy_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
