@@ -19,21 +19,28 @@ $textBlock.Margin = "0,10,0,20"  # Added margin to create space between the Text
 $dotfilesMenu.Children.Add($textBlock)
 [System.Windows.Controls.Grid]::SetRow($textBlock, 0)
 
+# Add or Refresh Dotfiles
+$copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
+$copy_PWSH_Profile_Button.Content = "♻️ Refresh Dotfiles"
+$copy_PWSH_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
+$dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
+[System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 1)
+
 # Create buttons for Dotfiles Menu
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
-$copy_PWSH_Profile_Button.Content = "📋 PWSH Profile"
+$copy_PWSH_Profile_Button.Content = "$([char]0xF0C5) PWSH Profile"
 $copy_PWSH_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 1)
 
 $copy_Default_Powershell_Profile_Button = New-Object System.Windows.Controls.Button
-$copy_Default_Powershell_Profile_Button.Content = "📄 Default Powershell Profile"
+$copy_Default_Powershell_Profile_Button.Content = "$([char]0xF0C5) Default Powershell Profile"
 $copy_Default_Powershell_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 2)
 
 $copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
-$copy_WSL_Bash_Dotfile_Button.Content = "🖥️ WSL Bash Dotfile"
+$copy_WSL_Bash_Dotfile_Button.Content = "$([char]0xF0C5) WSL Bash Dotfile"
 $copy_WSL_Bash_Dotfile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_WSL_Bash_Dotfile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 3)
