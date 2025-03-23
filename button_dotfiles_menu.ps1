@@ -9,7 +9,7 @@ $dotfilesMenu.RowDefinitions[1].Height = [System.Windows.GridLength]::Auto  # Bu
 
 # Add the Title TextBlock at the top (Row 0)
 $textBlock = New-Object System.Windows.Controls.TextBlock
-$textBlock.Text = "Choose Which Dotfile to Copy"
+$textBlock.Text = "Dotiles Menu"
 $textBlock.FontSize = 20
 $textBlock.FontWeight = "Bold"
 $textBlock.Foreground = "White"
@@ -23,27 +23,25 @@ $buttonsPanel = New-Object System.Windows.Controls.StackPanel
 $buttonsPanel.Orientation = "Vertical"  # Stack buttons vertically
 $buttonsPanel.HorizontalAlignment = "Center"  # Center buttons horizontally
 
-# Function to Create Buttons with Customizable Colors
-function New-Button($content, $backgroundColor, $textColor) {
+# Function to Create Buttons with Uniform Spacing
+function New-Button($content) {
   $btn = New-Object System.Windows.Controls.Button
   $btn.Content = $content
   $btn.Margin = "10,5,10,5"  # Adjust margin for consistent spacing
-  $btn.Background = [System.Windows.Media.Brushes]::$backgroundColor  # Set the background color
-  $btn.Foreground = [System.Windows.Media.Brushes]::$textColor  # Set the text color
   return $btn
 }
 
-# Create Buttons and add them to the StackPanel with custom colors
-$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles" "Green" "White"
+# Create Buttons and add them to the StackPanel
+$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
-$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile" "Blue" "White"
+$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
 $buttonsPanel.Children.Add($copy_PWSH_Profile_Button)
 
-$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile" "Orange" "White"
+$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
 $buttonsPanel.Children.Add($copy_Default_Powershell_Profile_Button)
 
-$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc" "Purple" "White"
+$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
 $buttonsPanel.Children.Add($copy_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
