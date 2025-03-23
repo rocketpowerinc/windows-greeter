@@ -100,7 +100,7 @@
                 </StackPanel>
             </Button>
             <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
-            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📝 Dotfiles" Margin="10"/>
+            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="💎 Dotfiles" Margin="10"/>
             <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
             <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
             <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
