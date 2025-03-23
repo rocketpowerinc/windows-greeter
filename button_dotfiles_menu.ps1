@@ -95,7 +95,7 @@ $backButton.Add_Click({
 #*##############   Add Click Handlers for Buttons   #########################
 
 $refresh_Dotfiles_Button.Add_Click({
-  Write-Host "Copying pwsh 7+ Profile..."
+  Write-Host "Refreshing Dotfiles..."
   # Add logic for copying the profile
 })
 
