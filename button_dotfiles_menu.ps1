@@ -11,16 +11,17 @@ $textBlock.Foreground = "White"
 $textBlock.HorizontalAlignment = "Center"
 $textBlock.Margin = "0,10,0,20"
 
-# Create a StackPanel to hold buttons (Prevents excessive spacing)
+# Create a StackPanel to hold buttons (Stacking them vertically)
 $buttonsPanel = New-Object System.Windows.Controls.StackPanel
-$buttonsPanel.HorizontalAlignment = "Center"
+$buttonsPanel.Orientation = "Vertical"  # Ensure vertical stacking
+$buttonsPanel.HorizontalAlignment = "Center"  # Center the buttons in the panel
 
 # Function to Create Buttons with Uniform Spacing
 function New-Button($content) {
-    $btn = New-Object System.Windows.Controls.Button
-    $btn.Content = $content
-    $btn.Margin = "10,5,10,5"  # Adjust margin to reduce spacing
-    return $btn
+  $btn = New-Object System.Windows.Controls.Button
+  $btn.Content = $content
+  $btn.Margin = "10,5,10,5"  # Adjust margin to reduce spacing
+  return $btn
 }
 
 # Create Buttons
@@ -58,11 +59,12 @@ $dotfilesMenu.Children.Add($textBlock)  # Title stays on top
 # Back Button Click Event
 $backButton.Add_Click({
     if ($global:MainMenuGrid) {
-        $window.Content = $global:MainMenuGrid
-    } else {
-        Write-Host "Error: Main menu content not found!"
+      $window.Content = $global:MainMenuGrid
     }
-})
+    else {
+      Write-Host "Error: Main menu content not found!"
+    }
+  })
 
 # Button Click Handlers
 $refresh_Dotfiles_Button.Add_Click({ Write-Host "Refreshing Dotfiles..." })
