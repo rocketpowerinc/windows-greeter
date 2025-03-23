@@ -142,6 +142,8 @@
   $window.FindName("DotfilesButton").Add_Click({
       # Store the root Grid of the main menu
       $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
 
       # Call the Dotfiles menu script
       & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1'
