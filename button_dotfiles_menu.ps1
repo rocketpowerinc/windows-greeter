@@ -1,8 +1,13 @@
-# Create a new DockPanel for layout (Ensures back button stays at the bottom)
-$dotfilesMenu = New-Object System.Windows.Controls.DockPanel
-$dotfilesMenu.LastChildFill = $true  # Ensures remaining space is filled properly
+# Create a new Grid layout for the Dotfiles Menu
+$dotfilesMenu = New-Object System.Windows.Controls.Grid
 
-# Add Title TextBlock
+# Set the row definitions to create space for the TextBlock, buttons, and Back button
+$dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))  # For the TextBlock
+$dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))  # For the Buttons
+$dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))  # For the Back Button
+$dotfilesMenu.RowDefinitions[1].Height = [System.Windows.GridLength]::Auto  # Buttons should fit content
+
+# Add the Title TextBlock at the top (Row 0)
 $textBlock = New-Object System.Windows.Controls.TextBlock
 $textBlock.Text = "Choose Which Dotfile to Copy"
 $textBlock.FontSize = 20
@@ -10,21 +15,23 @@ $textBlock.FontWeight = "Bold"
 $textBlock.Foreground = "White"
 $textBlock.HorizontalAlignment = "Center"
 $textBlock.Margin = "0,10,0,20"
+$dotfilesMenu.Children.Add($textBlock)
+[System.Windows.Controls.Grid]::SetRow($textBlock, 0)
 
-# Create a StackPanel to hold buttons (Stacking them vertically)
+# Create a StackPanel to hold buttons, and center them
 $buttonsPanel = New-Object System.Windows.Controls.StackPanel
-$buttonsPanel.Orientation = "Vertical"  # Ensure vertical stacking
-$buttonsPanel.HorizontalAlignment = "Center"  # Center the buttons in the panel
+$buttonsPanel.Orientation = "Vertical"  # Stack buttons vertically
+$buttonsPanel.HorizontalAlignment = "Center"  # Center buttons horizontally
 
 # Function to Create Buttons with Uniform Spacing
 function New-Button($content) {
   $btn = New-Object System.Windows.Controls.Button
   $btn.Content = $content
-  $btn.Margin = "10,5,10,5"  # Adjust margin to reduce spacing
+  $btn.Margin = "10,5,10,5"  # Adjust margin for consistent spacing
   return $btn
 }
 
-# Create Buttons
+# Create Buttons and add them to the StackPanel
 $refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
@@ -37,7 +44,11 @@ $buttonsPanel.Children.Add($copy_Default_Powershell_Profile_Button)
 $copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
 $buttonsPanel.Children.Add($copy_WSL_Bash_Dotfile_Button)
 
-# Back Button at the Absolute Bottom
+# Add buttons panel to Grid at Row 1
+$dotfilesMenu.Children.Add($buttonsPanel)
+[System.Windows.Controls.Grid]::SetRow($buttonsPanel, 1)
+
+# Back Button at the Absolute Bottom (Row 2)
 $backButton = New-Object System.Windows.Controls.Button
 $backButton.Content = "🔙 Back to Main Menu"
 $backButton.Margin = "10,10,10,10"
@@ -48,13 +59,9 @@ $backButton.BorderBrush = [System.Windows.Media.Brushes]::Blue
 $backButton.BorderThickness = 2
 $backButton.Padding = "5"
 
-# Dock the Back Button at the Bottom
-[System.Windows.Controls.DockPanel]::SetDock($backButton, "Bottom")
-
-# Add Items to DockPanel
-$dotfilesMenu.Children.Add($backButton)  # This goes to the bottom
-$dotfilesMenu.Children.Add($buttonsPanel)  # Buttons stay in the center
-$dotfilesMenu.Children.Add($textBlock)  # Title stays on top
+# Add the Back Button to the Grid at Row 2
+$dotfilesMenu.Children.Add($backButton)
+[System.Windows.Controls.Grid]::SetRow($backButton, 2)
 
 # Back Button Click Event
 $backButton.Add_Click({
