@@ -80,7 +80,7 @@ $backButton.Content = $backButtonContent
 
 # Add the button to the grid
 $dotfilesMenu.Children.Add($backButton)
-[System.Windows.Controls.Grid]::SetRow($backButton, 4)
+[System.Windows.Controls.Grid]::SetRow($backButton, 5)
 
 # Back button to restore the original main menu
 $backButton.Add_Click({
