@@ -9,14 +9,14 @@ for ($i = 0; $i -lt 5; $i++) {
 
 # Create buttons for Dotfiles Menu
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
-$copy_PWSH_Profile_Button.Content = "📋 Copy PowerShell Profile"
+$copy_PWSH_Profile_Button.Content = "📋 PWSH Profile"
 $copy_PWSH_Profile_Button.Margin = "10"
 $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 0)
 
 
 $copy_Default_Powershell_Profile_Button = New-Object System.Windows.Controls.Button
-$copy_Default_Powershell_Profile_Button.Content = "📄 View Dotfiles"
+$copy_Default_Powershell_Profile_Button.Content = "📄 Default Powershell Profile"
 $copy_Default_Powershell_Profile_Button.Margin = "10"
 $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 1)
