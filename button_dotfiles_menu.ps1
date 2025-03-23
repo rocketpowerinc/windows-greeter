@@ -7,6 +7,18 @@ for ($i = 0; $i -lt 5; $i++) {
   $dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))
 }
 
+
+# Add a TextBlock to the top of the Dotfiles Menu
+$textBlock = New-Object System.Windows.Controls.TextBlock
+$textBlock.Text = "Choose Which Dotfile to Copy"
+$textBlock.FontSize = 20
+$textBlock.FontWeight = "Bold"
+$textBlock.Foreground = "White"
+$textBlock.HorizontalAlignment = "Center"
+$textBlock.Margin = "0,10,0,20"
+$dotfilesMenu.Children.Add($textBlock)
+[System.Windows.Controls.Grid]::SetRow($textBlock, 0)
+
 # Create buttons for Dotfiles Menu
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_PWSH_Profile_Button.Content = "📋 PWSH Profile"
