@@ -100,12 +100,12 @@
                 </StackPanel>
             </Button>
             <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
-            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="💎 Dotfiles" Margin="10"/>
+            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="`u{25C8} Dotfiles" Margin="10"/>
             <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
             <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
             <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
             <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-            <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="`u{25C8} Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
+            <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
             <Button x:Name="ToggleThemeButton" Grid.Column="0" Grid.Row="4" Content="🌗 Toggle Dark/Light Mode" Margin="10" Grid.ColumnSpan="2"/>
         </Grid>
     </Grid>
