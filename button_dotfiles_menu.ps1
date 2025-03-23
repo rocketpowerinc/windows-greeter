@@ -24,7 +24,7 @@ $dotfilesMenu.Children.Add($textBlock)
 function New-Button($content) {
     $btn = New-Object System.Windows.Controls.Button
     $btn.Content = $content
-    $btn.Margin = "10,0,10,0"  # Remove vertical spacing between buttons
+    $btn.Margin = "10,1,10,1"  # Remove vertical spacing between buttons
     return $btn
 }
 
