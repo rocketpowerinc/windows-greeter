@@ -15,33 +15,33 @@ $textBlock.FontSize = 20
 $textBlock.FontWeight = "Bold"
 $textBlock.Foreground = "White"
 $textBlock.HorizontalAlignment = "Center"
-$textBlock.Margin = "0,10,0,20"  # Added margin to create space between the TextBlock and buttons
+$textBlock.Margin = "0,5,0,10"  # Added margin to create space between the TextBlock and buttons
 $dotfilesMenu.Children.Add($textBlock)
 [System.Windows.Controls.Grid]::SetRow($textBlock, 0)
 
 # Add or Refresh Dotfiles Directory
 $refresh_Dotfiles_Button = New-Object System.Windows.Controls.Button
 $refresh_Dotfiles_Button.Content = "♻️ Refresh Dotfiles"
-$refresh_Dotfiles_Button.Margin = "10,2,10,2"  # Reduced vertical margin
+$refresh_Dotfiles_Button.Margin = "5,2,5,2"  # Reduced vertical margin
 $dotfilesMenu.Children.Add($refresh_Dotfiles_Button)
 [System.Windows.Controls.Grid]::SetRow($refresh_Dotfiles_Button, 1)
 
 # Create buttons for Dotfiles Menu
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_PWSH_Profile_Button.Content = "📋 Source pwsh 7+ Profile"
-$copy_PWSH_Profile_Button.Margin = "10,2,10,2"  # Reduced vertical margin
+$copy_PWSH_Profile_Button.Margin = "5,2,5,2"  # Reduced vertical margin
 $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 2)
 
 $copy_Default_Powershell_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_Default_Powershell_Profile_Button.Content = "📋 Source Powershell Profile"
-$copy_Default_Powershell_Profile_Button.Margin = "10,2,10,2"  # Reduced vertical margin
+$copy_Default_Powershell_Profile_Button.Margin = "5,2,55,2"  # Reduced vertical margin
 $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 3)
 
 $copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
 $copy_WSL_Bash_Dotfile_Button.Content = "📋 Source WSL bashrc"
-$copy_WSL_Bash_Dotfile_Button.Margin = "10,2,10,2"  # Reduced vertical margin
+$copy_WSL_Bash_Dotfile_Button.Margin = "5,2,5,2"  # Reduced vertical margin
 $dotfilesMenu.Children.Add($copy_WSL_Bash_Dotfile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 4)
 
