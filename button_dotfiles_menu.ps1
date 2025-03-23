@@ -29,7 +29,7 @@ $dotfilesMenu.Children.Add($textBlock)
 function New-Button($content) {
     $btn = New-Object System.Windows.Controls.Button
     $btn.Content = $content
-    $btn.Margin = "10,0,10,0"  # Removes vertical gaps
+    $btn.Margin = "10,2,10,2"  # Removes vertical gaps
     return $btn
 }
 
