@@ -30,17 +30,20 @@ $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
 $copy_PWSH_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_PWSH_Profile_Button.Content = "`u{F0C5} PWSH Profile"
 $copy_PWSH_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
+$copy_WSL_Bash_Dotfile_Button.FontFamily = "Segoe UI Emoji"
 $dotfilesMenu.Children.Add($copy_PWSH_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_PWSH_Profile_Button, 1)
 
 $copy_Default_Powershell_Profile_Button = New-Object System.Windows.Controls.Button
 $copy_Default_Powershell_Profile_Button.Content = "`u{F0C5} Default Powershell Profile"
 $copy_Default_Powershell_Profile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
+$copy_WSL_Bash_Dotfile_Button.FontFamily = "Segoe UI Emoji"
 $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 2)
 
 $copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
-$copy_WSL_Bash_Dotfile_Button.Content = "`u{F0C5} WSL Bash Dotfile"
+$copy_WSL_Bash_Dotfile_Button.Content = "$([char]0xF0C5) WSL Bash Dotfile"
+$copy_WSL_Bash_Dotfile_Button.FontFamily = "Segoe UI Emoji"
 $copy_WSL_Bash_Dotfile_Button.Margin = "10,5,10,5"  # Adjusted margin for consistent spacing
 $dotfilesMenu.Children.Add($copy_WSL_Bash_Dotfile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 3)
