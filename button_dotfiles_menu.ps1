@@ -42,5 +42,22 @@ $backButton.Add_Click({
     }
   })
 
+
+#*##############   Add Click Handlers for Buttons   #########################
+$copyProfileButton.Add_Click({
+    Write-Host "Copying PowerShell Profile..."
+    # Add logic for copying the profile
+  })
+
+$wslDotfileButton.Add_Click({
+    Write-Host "Accessing WSL Bash Dotfile..."
+    # Add logic for WSL Bash dotfiles
+  })
+
+$dotfilesButton.Add_Click({
+    Write-Host "Viewing Dotfiles..."
+    # Logic to view the Dotfiles
+  })
+
 # Replace the window content with the Dotfiles menu
 $window.Content = $dotfilesMenu
