@@ -1,18 +1,13 @@
-param(
-  [Parameter(Mandatory = $true)]
-  $PreviousContent  # Store entire previous content
-)
-
-# Create Dotfiles menu grid
+# Create a new Grid for Dotfiles Menu
 $dotfilesMenu = New-Object System.Windows.Controls.Grid
 $dotfilesMenu.Margin = "0,20,0,0"
 
-# Add rows
+# Add RowDefinitions to the new Grid
 for ($i = 0; $i -lt 5; $i++) {
   $dotfilesMenu.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition))
 }
 
-# Create buttons
+# Create buttons for Dotfiles Menu
 $copyProfileButton = New-Object System.Windows.Controls.Button
 $copyProfileButton.Content = "📋 Copy PowerShell Profile"
 $copyProfileButton.Margin = "10"
@@ -37,10 +32,15 @@ $backButton.Margin = "10"
 $dotfilesMenu.Children.Add($backButton)
 [System.Windows.Controls.Grid]::SetRow($backButton, 3)
 
-# Back button to restore previous content
+# Back button to restore the original main menu
 $backButton.Add_Click({
-    $window.Content = $PreviousContent
+    if ($global:MainMenuGrid) {
+      $window.Content = $global:MainMenuGrid
+    }
+    else {
+      Write-Host "Error: Main menu content not found!"
+    }
   })
 
-# Show the Dotfiles menu
+# Replace the window content with the Dotfiles menu
 $window.Content = $dotfilesMenu

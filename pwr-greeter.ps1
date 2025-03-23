@@ -140,10 +140,13 @@
     })
 
   $window.FindName("DotfilesButton").Add_Click({
-      # Store the current window content
-      $previousContent = $window.Content
-      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1' -PreviousContent $previousContent
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+
+      # Call the Dotfiles menu script
+      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1'
     })
+
 
   $window.FindName("DirectoriesButton").Add_Click({
       Start-Process "explorer"
