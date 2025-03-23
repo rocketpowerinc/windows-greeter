@@ -22,11 +22,11 @@ $dotfilesMenu.Children.Add($copy_Default_Powershell_Profile_Button)
 [System.Windows.Controls.Grid]::SetRow($copy_Default_Powershell_Profile_Button, 1)
 
 
-$Copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
-$Copy_WSL_Bash_Dotfile_Button.Content = "🖥️ WSL Bash Dotfile"
-$Copy_WSL_Bash_Dotfile_Button.Margin = "10"
-$dotfilesMenu.Children.Add($Copy_WSL_Bash_Dotfile_Button)
-[System.Windows.Controls.Grid]::SetRow($Copy_WSL_Bash_Dotfile_Button, 2)
+$copy_WSL_Bash_Dotfile_Button = New-Object System.Windows.Controls.Button
+$copy_WSL_Bash_Dotfile_Button.Content = "🖥️ WSL Bash Dotfile"
+$copy_WSL_Bash_Dotfile_Button.Margin = "10"
+$dotfilesMenu.Children.Add($copy_WSL_Bash_Dotfile_Button)
+[System.Windows.Controls.Grid]::SetRow($copy_WSL_Bash_Dotfile_Button, 2)
 
 $backButton = New-Object System.Windows.Controls.Button
 $backButton.Content = "🔙 Back to Main Menu"
@@ -56,7 +56,7 @@ $copy_Default_Powershell_Profile_Button.Add_Click({
     # Add logic for WSL Bash dotfiles
   })
 
-$Copy_WSL_Bash_Dotfile_Button.Add_Click({
+$copy_WSL_Bash_Dotfile_Button.Add_Click({
     Write-Host "Copying WSL Bash Dotfile..."
     # Logic to view the Dotfiles
   })
