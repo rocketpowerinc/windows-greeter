@@ -23,27 +23,27 @@ $buttonsPanel = New-Object System.Windows.Controls.StackPanel
 $buttonsPanel.Orientation = "Vertical"  # Stack buttons vertically
 $buttonsPanel.HorizontalAlignment = "Center"  # Center buttons horizontally
 
-# Function to Create Buttons with Uniform Spacing
-function New-Button($content, $background, $foreground) {
+# Function to Create Buttons with Uniform Spacing and Background/Foreground Color
+function New-Button($content, $backgroundColor, $foregroundColor) {
   $btn = New-Object System.Windows.Controls.Button
   $btn.Content = $content
   $btn.Margin = "10,5,10,5"  # Adjust margin for consistent spacing
-  $btn.Background = $background  # Set background color
-  $btn.Foreground = $foreground  # Set text color
+  $btn.Background = New-Object System.Windows.Media.SolidColorBrush($backgroundColor)  # Use SolidColorBrush
+  $btn.Foreground = New-Object System.Windows.Media.SolidColorBrush($foregroundColor)  # Use SolidColorBrush
   return $btn
 }
 
-# Create Buttons and add them to the StackPanel
-$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles" [System.Windows.Media.Brushes]::Green [System.Windows.Media.Brushes]::White
+# Create Buttons and add them to the StackPanel with proper colors
+$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles" [System.Windows.Media.Colors]::Green [System.Windows.Media.Colors]::White
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
-$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile" [System.Windows.Media.Brushes]::DodgerBlue [System.Windows.Media.Brushes]::White
+$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile" [System.Windows.Media.Colors]::DodgerBlue [System.Windows.Media.Colors]::White
 $buttonsPanel.Children.Add($copy_PWSH_Profile_Button)
 
-$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile" [System.Windows.Media.Brushes]::RoyalBlue [System.Windows.Media.Brushes]::White
+$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile" [System.Windows.Media.Colors]::RoyalBlue [System.Windows.Media.Colors]::White
 $buttonsPanel.Children.Add($copy_Default_Powershell_Profile_Button)
 
-$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc" [System.Windows.Media.Brushes]::Orange [System.Windows.Media.Brushes]::White
+$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc" [System.Windows.Media.Colors]::Orange [System.Windows.Media.Colors]::White
 $buttonsPanel.Children.Add($copy_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
@@ -54,10 +54,10 @@ $dotfilesMenu.Children.Add($buttonsPanel)
 $backButton = New-Object System.Windows.Controls.Button
 $backButton.Content = "🔙 Back to Main Menu"
 $backButton.Margin = "10,10,10,10"
-$backButton.Background = [System.Windows.Media.Brushes]::DarkRed
-$backButton.Foreground = [System.Windows.Media.Brushes]::White
+$backButton.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Colors]::DarkRed)
+$backButton.Foreground = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Colors]::White)
 $backButton.FontWeight = "Bold"
-$backButton.BorderBrush = [System.Windows.Media.Brushes]::Blue
+$backButton.BorderBrush = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Colors]::Blue)
 $backButton.BorderThickness = 2
 $backButton.Padding = "5"
 
