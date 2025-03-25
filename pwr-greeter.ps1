@@ -7,6 +7,7 @@ This script creates a custom greeter window using WPF, providing a user interfac
 
 .NOTES
 * Requires the PresentationFramework assembly.
+* Assumes the PresentationFramework assembly.
 * Assumes the existence of certain files and directories at specified paths.  These need to be updated if the script is moved.
 * Uses PowerShell 7 or later for the -ArgumentList parameter with Start-Process for more reliable argument passing.
 
@@ -297,7 +298,6 @@ try {
       $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) # Row 1
       $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) # Row 2
 
-
       # Add a TextBlock with the version information
       $aboutText = New-Object System.Windows.Controls.TextBlock
       $aboutText.Text = "Power Greeter v$version"  # Include the version
@@ -356,8 +356,10 @@ try {
       }
       finally {
         # Optional cleanup: Dispose of the About window to release resources
-        $aboutWindow.Close()
-        $aboutWindow.Content = $null
+        if ($aboutWindow) {
+          $aboutWindow.Close()
+          $aboutWindow.Content = $null
+        }
         $aboutWindow = $null
       }
     })
@@ -375,8 +377,8 @@ finally {
   if ($window) {
     $window.Close()
     $window.Content = $null
-    $window = $null
   }
+  $window = $null
   [gc]::Collect()
   [gc]::WaitForPendingFinalizers()
 }
