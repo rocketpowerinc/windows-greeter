@@ -96,7 +96,7 @@ try {
 
       <!-- Style for the Menu itself -->
       <Style TargetType="Menu">
-          <Setter Property="Background" Value="#1F1F1F"/>
+          <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="BorderThickness" Value="0"/>
       </Style>
 
