@@ -71,6 +71,12 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Menu>
+                        <MenuItem Header="☰" x:Name="HamburgerMenu" Foreground="White" FontSize="14" FontWeight="Bold" Background="Transparent" BorderThickness="0">
+                            <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
+                            <MenuItem Header="ℹ️ About" x:Name="AboutMenuItem"/>
+                        </MenuItem>
+                    </Menu>
                     <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
                     <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
                 </StackPanel>
