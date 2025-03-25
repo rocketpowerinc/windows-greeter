@@ -72,6 +72,7 @@
                 <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
                     <Button x:Name="HamburgerMenuButton" Content="☰" Style="{StaticResource ToolbarButton}" ToolTip="Menu">
+                    <Button x:Name="HamburgerMenuButton" Content="☰" Style="{StaticResource ToolbarButton}" ToolTip="Menu">
                         <Button.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
@@ -101,7 +102,12 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" Content="📖 ReadMe" Margin="10"/>
+            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
+                    <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
             <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📂 Dotfiles" Margin="10"/>
             <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
