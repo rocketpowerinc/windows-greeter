@@ -3,11 +3,11 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options. The "About" window now opens in the center and displays the repository website.
 
 .NOTES
 * Requires the PresentationFramework assembly.
-* Assumes the existence of certain files and directories at specified paths.
+* Assumes the existence of certain files and directories at specified paths.  These need to be updated if the script is moved.
 * Uses PowerShell 7 or later for the -ArgumentList parameter with Start-Process for more reliable argument passing.
 
 .EXAMPLE
@@ -15,44 +15,31 @@ This script creates a custom greeter window using WPF, providing a user interfac
 
 Launches the greeter window.
 #>
-
-#Requires -Version 5.1
+#Requires -Version 5.1  # Minimum required PowerShell version
 
 try {
   # Import necessary assemblies
   Add-Type -AssemblyName PresentationFramework
 
-  # Configuration Section
-  $version = "1.0.0"
+  #* Asset Paths - Consider making these configurable or relative to the script's location
+  $firefoxImagePath = Join-Path $PSScriptRoot "Assets\firefox.png" #Relative path
+  #$firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png" #Original, absolute path.
+
+  # Define Version and Repository URL
+  $version = "1.0.0" # Replace with your actual version
   $repoUrl = "https://github.com/rocketpowerinc"
 
-  # Function to get script path
-  function Get-ScriptPath {
-    param (
-      [string]$FileName
-    ) {
-      return Join-Path $PSScriptRoot $FileName
-    }
-  }
-
-  # Define file paths using the function
-  $firefoxImagePath = Get-ScriptPath -FileName "Assets\firefox.png"
-  $UniGetUIPath = Get-ScriptPath -FileName "button_open_UniGetUI.ps1"
-  $DotfilesMenuPath = Get-ScriptPath -FileName "button_dotfiles_menu.ps1"
-  $ScriptBinPath = Get-ScriptPath -FileName "button_open_ScriptBin.ps1"
-  $PersistantWindowsPath = Get-ScriptPath -FileName "button_persistant_windows.ps1"
-
-  # Load XAML (consider externalizing to a file for easier editing)
+  # Load the XAML with a custom dark toolbar and no native title bar
   $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="pwr-greeter"
-    Height="700" Width="600"
-    Background="#2B2B2B"
-    WindowStyle="None"
-    ResizeMode="CanResizeWithGrip"
-    AllowsTransparency="True"
-    WindowStartupLocation="CenterScreen">  <!-- Added to center the window -->
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="pwr-greeter"
+      Height="700" Width="600"
+      Background="#2B2B2B"
+      WindowStyle="None"
+      ResizeMode="CanResizeWithGrip"
+      AllowsTransparency="True"
+      WindowStartupLocation="CenterScreen">  <!-- Added to center the window -->
   <Window.Resources>
       <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
           <GradientStop Color="#2b2b2b" Offset="0.0"/>
@@ -148,7 +135,7 @@ try {
           <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
       </Label>
       <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-                 Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
+          Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
       <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
           <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
@@ -173,27 +160,31 @@ try {
           <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
           <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
           <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-          <Button x:Name="PersistantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
+          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
       </Grid>
   </Grid>
 </Window>
 "@
 
   # Load the XAML into a reader
-  $reader = New-Object System.Xml.XmlNodeReader($xaml.DocumentElement)
+  $reader = New-Object System.Xml.XmlNodeReader ($xaml.DocumentElement)
   $window = [Windows.Markup.XamlReader]::Load($reader)
 
-  # Event Handlers
+  # Enable dragging the window by the toolbar
   $window.Add_MouseLeftButtonDown({
       $window.DragMove()
     })
+
+  # Add click actions for toolbar buttons
   $window.FindName("MinimizeButton").Add_Click({
       $window.WindowState = [System.Windows.WindowState]::Minimized
     })
+
   $window.FindName("CloseButton").Add_Click({
       $window.Close()
     })
 
+  # Add click actions for main buttons
   $window.FindName("ReadMeButton").Add_Click({
       try {
         Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
@@ -201,103 +192,86 @@ try {
       catch {
         Write-Warning "Failed to open Firefox.  Is Firefox installed?"
       }
+
     })
 
+  $UniGetUIPath = Join-Path $PSScriptRoot "button_open_UniGetUI.ps1"
   $window.FindName("UniGetUIButton").Add_Click({
-      try {
-        if (Test-Path $UniGetUIPath) {
-          Start-Process pwsh -ArgumentList @('-File', $UniGetUIPath)
-        }
-        else {
-          Write-Warning "UniGetUI script not found at '$UniGetUIPath'."
-        }
+      if (Test-Path $UniGetUIPath) {
+        Start-Process pwsh -ArgumentList @('-File', $UniGetUIPath)
       }
-      catch {
-        Write-Warning "Failed to start UniGetUI script."
+      else {
+        Write-Warning "UniGetUI script not found at '$UniGetUIPath'."
+      }
+
+    })
+
+  $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
+  $window.FindName("DotfilesButton").Add_Click({
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
+
+      # Call the Dotfiles menu script
+      if (Test-Path $DotfilesMenuPath) {
+        & $DotfilesMenuPath
+      }
+      else {
+        Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
       }
     })
 
-  $window.FindName("DotfilesButton").Add_Click({
-      $MainMenuGrid = $window.Content  # Get the grid locally
-      try {
-        if (Test-Path $DotfilesMenuPath) {
-          & $DotfilesMenuPath -MainMenuGrid $MainMenuGrid
-        }
-        else {
-          Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
-        }
-      }
-      catch {
-        Write-Warning "Failed to start Dotfiles menu script."
-      }
-    })
 
   $window.FindName("DirectoriesButton").Add_Click({
-      try {
-        Start-Process "explorer"
-      }
-      catch {
-        Write-Warning "Failed to start Explorer."
-      }
+      Start-Process "explorer"
     })
 
   $window.FindName("TitusWinUtilButton").Add_Click({
-      try {
-        #Using Invoke web request instead of irm.
-        $script = Invoke-WebRequest -Uri "https://christitus.com/win" -UseBasicParsing
-        Start-Process pwsh -ArgumentList "-NoProfile", "-Command", $script.Content
-      }
-      catch {
-        Write-Warning "Failed to download and run Titus WinUtil."
-      }
-
+      #Consider using Invoke-WebRequest instead of irm, and add better error handling.
+      Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
     })
 
+  $ScriptBinPath = Join-Path $PSScriptRoot "button_open_ScriptBin.ps1"
   $window.FindName("ScriptBinButton").Add_Click({
-      try {
-        if (Test-Path $ScriptBinPath) {
-          Start-Process pwsh -ArgumentList @('-File', $ScriptBinPath)
-        }
-        else {
-          Write-Warning "ScriptBin script not found at '$ScriptBinPath'."
-        }
+      if (Test-Path $ScriptBinPath) {
+        Start-Process pwsh -ArgumentList @('-File', $ScriptBinPath)
       }
-      catch {
-        Write-Warning "Failed to start ScriptBin script."
+      else {
+        Write-Warning "ScriptBin script not found at '$ScriptBinPath'."
       }
     })
 
   $window.FindName("MembersOnlyButton").Add_Click({
       Write-Host "Members Only functionality not implemented."
+      #TODO: Implement members only functionality
     })
 
-  $window.FindName("PersistantWindowsButton").Add_Click({
-      try {
-        if (Test-Path $PersistantWindowsPath) {
-          Start-Process pwsh -ArgumentList @('-File', $PersistantWindowsPath)
-        }
-        else {
-          Write-Warning "Persistent Windows script not found at '$PersistantWindowsPath'."
-        }
+
+  $PersistantWindowsPath = Join-Path $PSScriptRoot "button_persistant_windows.ps1"
+  $window.FindName("PersisantWindowsButton").Add_Click({
+      if (Test-Path $PersistantWindowsPath) {
+        Start-Process pwsh -ArgumentList @('-File', $PersistantWindowsPath)
       }
-      catch {
-        Write-Warning "Failed to start Persistent Windows script."
+      else {
+        Write-Warning "Persistent Windows script not found at '$PersistantWindowsPath'."
       }
+
     })
 
-  # Theme Toggle
+  # Add click actions for menu items
   $window.FindName("ToggleThemeMenuItem").Add_Click({
-      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
         $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
       }
       else {
-        $darkBrush = New-Object System.Windows.Media.SolidColorBrush ([System.Windows.Media.Color]::FromRgb(43, 43, 43))
-        $darkBrush.Freeze()  # Freeze the brush
-        $window.Background = $darkBrush
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
       }
     })
 
-  # About Menu Item
   $window.FindName("AboutMenuItem").Add_Click({
       # Create a new window for the About dialog
       $aboutWindow = New-Object System.Windows.Window
@@ -306,9 +280,7 @@ try {
       $aboutWindow.Height = 200 # Increased height for the link and spacing
       $aboutWindow.WindowStartupLocation = "CenterOwner" #This works with ShowDialog()
       $aboutWindow.Owner = $window # Set the owner to center relative to the main window
-      $aboutWindow.ResizeMode = "NoResize"
       $aboutWindow.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43)) # Use the same dark background
-      $aboutWindow.Background.Freeze() #Freeze
 
       # Create a Grid for the About window
       $aboutGrid = New-Object System.Windows.Controls.Grid
@@ -319,6 +291,7 @@ try {
       $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 0
       $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1
       $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 2
+
 
       # Add a TextBlock with the version information
       $aboutText = New-Object System.Windows.Controls.TextBlock
@@ -352,6 +325,7 @@ try {
 
         })
 
+
       $aboutGrid.Children.Add($aboutLink)
 
       # Add a TextBlock with the version information
@@ -361,7 +335,6 @@ try {
       $aboutClose.FontWeight = "Bold"
       $aboutClose.Foreground = [System.Windows.Media.Brushes]::White
       $aboutClose.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43))
-      $aboutClose.Background.Freeze() #Freeze
       $aboutClose.HorizontalAlignment = "Center"
       $aboutClose.VerticalAlignment = "Center"
       $aboutClose.Cursor = "Hand" # Change cursor to a hand
@@ -371,11 +344,13 @@ try {
         })
       $aboutGrid.Children.Add($aboutClose)
 
+
       # Show the About window
       $aboutWindow.ShowDialog()
     })
 
-  # Show the main window
+
+  # Show the window
   $window.ShowDialog()
 
 }
@@ -384,14 +359,5 @@ catch {
   Write-Error $_.Exception.StackTrace
 }
 finally {
-  # Ensure reader is disposed of
-  if ($reader) {
-    try {
-      $reader.Close()
-      $reader.Dispose()
-    }
-    catch {
-      Write-Warning "Error disposing of XML reader: $($_.Exception.Message)"
-    }
-  }
+  #Optional cleanup
 }
