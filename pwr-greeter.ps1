@@ -374,11 +374,4 @@ catch {
 }
 finally {
   # Optional cleanup: Dispose of WPF objects and force garbage collection
-  if ($window) {
-    $window.Close()
-    $window.Content = $null
-  }
-  $window = $null
-  [gc]::Collect()
-  [gc]::WaitForPendingFinalizers()
 }
