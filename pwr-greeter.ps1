@@ -1,4 +1,4 @@
-.{
+{
   # Import necessary assemblies
   Add-Type -AssemblyName PresentationFramework
 
@@ -71,54 +71,19 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                    <Menu>
-                        <MenuItem Header="☰" x:Name="HamburgerMenu" Foreground="White" FontSize="14" FontWeight="Bold" Background="Transparent" BorderThickness="0">
-                            <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
-                            <MenuItem Header="ℹ️ About" x:Name="AboutMenuItem"/>
-                        </MenuItem>
-                    </Menu>
+                    <Button x:Name="HamburgerMenuButton" Content="☰" Style="{StaticResource ToolbarButton}" ToolTip="Menu">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
+                                <MenuItem Header="ℹ️ About" x:Name="AboutMenuItem"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
                     <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
                 </StackPanel>
             </Grid>
         </Border>
-        <Menu Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0">
-            <MenuItem Header="☰ Menu">
-                <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
-                <MenuItem Header="ℹ️ About" x:Name="AboutMenuItem"/>
-            </MenuItem>
-        </Menu>
-        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-        </Label>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-            Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
-        <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0"> <!-- Added margin for padding -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
-                    <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
-            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="`u{25C8} Dotfiles" Margin="10"/>
-            <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
-            <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
-            <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
-            <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-            <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
-        </Grid>
     </Grid>
 </Window>
 "@
@@ -141,7 +106,7 @@
       $window.Close()
     })
 
-  # Add click actions for menu items
+  # Add click action for theme toggle in the hamburger menu
   $window.FindName("ToggleThemeMenuItem").Add_Click({
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
           $window.Background.Color.ToString() -eq "#FF2B2B2B") {
@@ -154,8 +119,8 @@
       }
     })
 
+  # Add click action for About menu item
   $window.FindName("AboutMenuItem").Add_Click({
-      # Create a new window for the About dialog
       $aboutWindow = New-Object System.Windows.Window
       $aboutWindow.Title = "About"
       $aboutWindow.Width = 300
@@ -163,61 +128,18 @@
       $aboutWindow.WindowStartupLocation = "CenterOwner"
       $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
 
-      # Create a Grid for the About window
       $aboutGrid = New-Object System.Windows.Controls.Grid
       $aboutWindow.Content = $aboutGrid
 
-      # Add a TextBlock with the version information
       $aboutText = New-Object System.Windows.Controls.TextBlock
-      $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+      $aboutText.Text = "Power Greeter v1.0.0"
       $aboutText.FontSize = 16
       $aboutText.FontWeight = "Bold"
       $aboutText.HorizontalAlignment = "Center"
       $aboutText.VerticalAlignment = "Center"
       $aboutGrid.Children.Add($aboutText)
 
-      # Show the About window
       $aboutWindow.ShowDialog()
-    })
-
-  # Add click actions for main buttons
-  $window.FindName("ReadMeButton").Add_Click({
-      Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
-    })
-
-  $window.FindName("UniGetUIButton").Add_Click({
-      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_UniGetUI.ps1')
-    })
-
-  $window.FindName("DotfilesButton").Add_Click({
-      # Store the root Grid of the main menu
-      $global:MainMenuGrid = $window.Content
-      # Reference the variable above to suppress vscode warning (optional)
-      [void]$global:MainMenuGrid
-
-      # Call the Dotfiles menu script
-      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1'
-    })
-
-
-  $window.FindName("DirectoriesButton").Add_Click({
-      Start-Process "explorer"
-    })
-
-  $window.FindName("TitusWinUtilButton").Add_Click({
-      Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
-    })
-
-  $window.FindName("ScriptBinButton").Add_Click({
-      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_ScriptBin.ps1')
-    })
-
-  $window.FindName("MembersOnlyButton").Add_Click({
-      write-host "Members Only"
-    })
-
-  $window.FindName("PersisantWindowsButton").Add_Click({
-      Start-Process pwsh -ArgumentList @('-File', (Join-Path $PSScriptRoot 'button_persistant_windows.ps1'))
     })
 
   # Show the window
