@@ -94,7 +94,7 @@ try {
           <Setter Property="Padding" Value="5"/>
           <Style.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
-                  <Setter Property="Background" Value="#808080"/> <!-- Grey background on hover -->
+                  <Setter Property="Background" Value="red"/> <!-- Grey background on hover -->
               </Trigger>
           </Style.Triggers>
       </Style>
