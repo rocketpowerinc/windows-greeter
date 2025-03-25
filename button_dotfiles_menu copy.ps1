@@ -73,34 +73,8 @@ $backButton.Add_Click({
     }
   })
 
-#*################### Button Click Handlers ######################
-$refresh_Dotfiles_Button.Add_Click({
-    try {
-      # Define the target directory for the dotfiles
-      $dotfilesPath = Join-Path $env:USERPROFILE "Github-pwr\dotfiles"
-
-      # Ensure the parent directory exists
-      $githubPath = Join-Path $env:USERPROFILE "Github-pwr"
-      if (-not (Test-Path $githubPath)) {
-        New-Item -ItemType Directory -Path $githubPath -Force | Out-Null
-      }
-
-      # Remove the existing dotfiles directory if it exists
-      if (Test-Path $dotfilesPath) {
-        Remove-Item -Recurse -Force -Path $dotfilesPath
-      }
-
-      # Clone the dotfiles repository
-      git clone https://github.com/rocketpowerinc/dotfiles $dotfilesPath
-
-      # Display a success message
-      Write-Host "All dotfiles refreshed!" -ForegroundColor Green
-    }
-    catch {
-      # Handle errors and display an error message
-      Write-Host "An error occurred while refreshing dotfiles: $($_.Exception.Message)" -ForegroundColor Red
-    }
-  })
+# Button Click Handlers
+$refresh_Dotfiles_Button.Add_Click({ Write-Host "Refreshing Dotfiles..." })
 $copy_PWSH_Profile_Button.Add_Click({ Write-Host "Copying pwsh 7+ Profile..." })
 $copy_Default_Powershell_Profile_Button.Add_Click({ Write-Host "Copying Default Powershell Profile..." })
 $copy_WSL_Bash_Dotfile_Button.Add_Click({ Write-Host "Copying WSL Bash Dotfile..." })
