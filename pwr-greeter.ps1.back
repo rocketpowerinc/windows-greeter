@@ -71,6 +71,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+                    <Button x:Name="HamburgerMenuButton" Content="☰" Style="{StaticResource ToolbarButton}" ToolTip="Menu">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="🌗 Toggle Dark/Light Mode" x:Name="ToggleThemeMenuItem"/>
+                                <MenuItem Header="ℹ️ About" x:Name="AboutMenuItem"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
                     <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
                     <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
                 </StackPanel>
@@ -180,6 +188,45 @@
           [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
         )
       }
+    })
+
+  # Add click actions for menu items
+  $window.FindName("ToggleThemeMenuItem").Add_Click({
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      }
+      else {
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
+      }
+    })
+
+  $window.FindName("AboutMenuItem").Add_Click({
+      # Create a new window for the About dialog
+      $aboutWindow = New-Object System.Windows.Window
+      $aboutWindow.Title = "About"
+      $aboutWindow.Width = 300
+      $aboutWindow.Height = 150
+      $aboutWindow.WindowStartupLocation = "CenterOwner"
+      $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+
+      # Create a Grid for the About window
+      $aboutGrid = New-Object System.Windows.Controls.Grid
+      $aboutWindow.Content = $aboutGrid
+
+      # Add a TextBlock with the version information
+      $aboutText = New-Object System.Windows.Controls.TextBlock
+      $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+      $aboutText.FontSize = 16
+      $aboutText.FontWeight = "Bold"
+      $aboutText.HorizontalAlignment = "Center"
+      $aboutText.VerticalAlignment = "Center"
+      $aboutGrid.Children.Add($aboutText)
+
+      # Show the About window
+      $aboutWindow.ShowDialog()
     })
 
   # Show the window
