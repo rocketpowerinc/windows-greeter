@@ -109,7 +109,7 @@ try {
       </Grid.RowDefinitions>
 
       <!-- Toolbar -->
-      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,0">
+      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#2B2B2B" BorderThickness="0,0,0,1">
           <Grid>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto"/>
