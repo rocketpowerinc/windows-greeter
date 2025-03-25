@@ -3,7 +3,7 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.  The "About" window now opens in the center and displays the repository website.  When the Dotfiles button is clicked, the custom toolbar is integrated into the existing Dotfiles menu.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options. The "About" window now opens in the center and displays the repository website.
 
 .NOTES
 * Requires the PresentationFramework assembly.
@@ -99,7 +99,7 @@ try {
       </Style>
 
   </Window.Resources>
-  <Grid x:Name="MainGrid" Margin="0">
+  <Grid x:Name="RootGrid" Margin="0">
       <Grid.RowDefinitions>
           <RowDefinition Height="40"/>
           <RowDefinition Height="Auto"/>
@@ -107,7 +107,7 @@ try {
       </Grid.RowDefinitions>
 
       <!-- Toolbar -->
-      <Border x:Name="Toolbar" Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
+      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
           <Grid>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto"/>
@@ -117,7 +117,7 @@ try {
 
               <!-- Hamburger Menu -->
               <Menu Grid.Column="0" VerticalAlignment="Center">
-                  <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
+                  <MenuItem x:Name="HamburgerMenu" Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
                       <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
                       <MenuItem x:Name="AboutMenuItem" Header="About"/>
                   </MenuItem>
@@ -134,7 +134,9 @@ try {
       <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
           <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
       </Label>
-      <Grid Grid.Row="2" x:Name="MainMenuGrid" HorizontalAlignment="Center" Margin="0,20,0,0">
+      <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
+          Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
+      <Grid x:Name="MainMenuGrid" Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
           <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="*"/>
@@ -158,7 +160,7 @@ try {
           <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
           <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
           <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistent Windows" Margin="10"/>
+          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
       </Grid>
   </Grid>
 </Window>
@@ -167,6 +169,10 @@ try {
   # Load the XAML into a reader
   $reader = New-Object System.Xml.XmlNodeReader ($xaml.DocumentElement)
   $window = [Windows.Markup.XamlReader]::Load($reader)
+
+  # Store references to key elements
+  $rootGrid = $window.FindName("RootGrid")
+  $mainMenuGrid = $window.FindName("MainMenuGrid") #The main menu grid where the buttons live.
 
   # Enable dragging the window by the toolbar
   $window.Add_MouseLeftButtonDown({
@@ -206,70 +212,22 @@ try {
 
   $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
   $window.FindName("DotfilesButton").Add_Click({
-      # Store the main menu grid for later use (if you need to go back)
-      $global:MainMenuGrid = $window.FindName("MainMenuGrid")
-
-      # Store a reference to the toolbar
-      $toolbar = $window.FindName("Toolbar")
-
-      # Get a reference to the main grid
-      $mainGrid = $window.FindName("MainGrid")
-
-      # Create a new Grid to hold the toolbar and the Dotfiles menu
-      $dotfilesGrid = New-Object System.Windows.Controls.Grid
-
-      # Add Row Definitions to Dotfiles Grid
-      $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{ Height = "Auto" }))  # Toolbar Row
-      $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) # Dotfiles Content Row
-
-      # Remove the Toolbar from the MainGrid so we can add it to the new DotfilesGrid
-      $mainGrid.Children.Remove($toolbar)
-
-      # Add the toolbar to the top of the Dotfiles grid
-      [System.Windows.Controls.Grid]::SetRow($toolbar, 0)
-
-      $dotfilesGrid.Children.Add($toolbar)
-
-      # Load and execute the Dotfiles menu script.  This script should create the
-      # Dotfiles menu content and return a WPF element containing that content.
+      # Call the Dotfiles menu script
       if (Test-Path $DotfilesMenuPath) {
-        #Execute script and store result
-        $dotfilesContent = & $DotfilesMenuPath
+        # Remove the MainMenuGrid from the RootGrid
+        $rootGrid.Children.Remove($mainMenuGrid)
 
-        # Set the Dotfiles content to the second row of the Dotfiles grid
-        if ($dotfilesContent -is [System.Windows.UIElement]) {
-          [System.Windows.Controls.Grid]::SetRow($dotfilesContent, 1)
-          $dotfilesGrid.Children.Add($dotfilesContent)
-        }
-        else {
-          Write-Warning "Dotfiles menu script did not return a valid WPF element."
-          # Optionally, add an error message to the Dotfiles grid.
-          $errorText = New-Object System.Windows.Controls.TextBlock
-          $errorText.Text = "Error: Dotfiles menu script did not return a valid WPF element."
-          $errorText.Foreground = [System.Windows.Media.Brushes]::Red
-          [System.Windows.Controls.Grid]::SetRow($errorText, 1)
-          $dotfilesGrid.Children.Add($errorText)
-        }
+        # Execute the Dotfiles menu script, passing the main window and root grid
+        & $DotfilesMenuPath -ParentWindow $window -RootGrid $rootGrid
+
+        # After the Dotfiles menu is closed, add the MainMenuGrid back
+        # This assumes the Dotfiles menu script *removes* itself from the RootGrid.
+        # If it doesn't you will need to remove it here.
 
       }
       else {
         Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
-        # Optionally, add an error message to the Dotfiles grid.
-        $errorText = New-Object System.Windows.Controls.TextBlock
-        $errorText.Text = "Error: Dotfiles menu script not found."
-        $errorText.Foreground = [System.Windows.Media.Brushes]::Red
-        [System.Windows.Controls.Grid]::SetRow($errorText, 1)
-        $dotfilesGrid.Children.Add($errorText)
       }
-
-      # Remove the MainMenuGrid (original button grid) from the MainGrid
-      $mainGrid.Children.Remove($global:MainMenuGrid)
-
-      # Set the Dotfiles Grid to be in Row 2 (where MainMenuGrid originally was)
-      [System.Windows.Controls.Grid]::SetRow($dotfilesGrid, 2)
-
-      # Add DotfilesGrid to MainGrid
-      $mainGrid.Children.Add($dotfilesGrid)
     })
 
 
