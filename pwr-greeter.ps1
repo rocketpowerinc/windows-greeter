@@ -92,6 +92,20 @@ try {
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
+          <Setter Property="Template">
+              <Setter.Value>
+                  <ControlTemplate TargetType="MenuItem">
+                      <Border x:Name="border" Background="{TemplateBinding Background}">
+                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <ControlTemplate.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                              <Setter Property="Background" Value="Gray" TargetName="border"/>
+                          </Trigger>
+                      </ControlTemplate.Triggers>
+                  </ControlTemplate>
+              </Setter.Value>
+          </Setter>
       </Style>
 
       <!-- Style for the Menu itself -->
@@ -119,17 +133,7 @@ try {
 
               <!-- Hamburger Menu -->
               <Menu Grid.Column="0" VerticalAlignment="Center">
-                  <Menu.Resources>
-                      <Style TargetType="MenuItem">
-                          <Setter Property="Foreground" Value="#2b2b2b"/>
-                          <Style.Triggers>
-                              <Trigger Property="IsMouseOver" Value="True">
-                                  <Setter Property="Foreground" Value="Gray"/>
-                              </Trigger>
-                          </Style.Triggers>
-                      </Style>
-                  </Menu.Resources>
-                  <MenuItem Header="☰" FontSize="16" FontWeight="Bold">
+                  <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold" Style="{StaticResource MenuItem}">
                       <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
                       <MenuItem x:Name="AboutMenuItem" Header="About"/>
                   </MenuItem>
@@ -276,11 +280,13 @@ try {
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
           $window.Background.Color.ToString() -eq "#FF2B2B2B") {
         $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+        #Update menu items to match the new theme
       }
       else {
         $window.Background = New-Object System.Windows.Media.SolidColorBrush (
           [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
         )
+        #Update menu items to match the new theme
       }
     })
 
