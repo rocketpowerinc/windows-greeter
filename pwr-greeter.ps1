@@ -90,9 +90,23 @@ try {
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
-          <Setter Property="BorderThickness" Value="5"/>
-          <Setter Property="BorderBrush" Value="#2B2B2B"/>
+          <Setter Property="BorderThickness" Value="0"/>  <!-- Remove border -->
+          <Setter Property="BorderBrush" Value="Transparent"/> <!-- Remove border -->
           <Setter Property="Padding" Value="5"/>
+          <Setter Property="Template">
+              <Setter.Value>
+                  <ControlTemplate TargetType="MenuItem">
+                      <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                      </Border>
+                      <ControlTemplate.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                              <Setter Property="Background" Value="Gray" /> <!-- Darker background on hover -->
+                          </Trigger>
+                      </ControlTemplate.Triggers>
+                  </ControlTemplate>
+              </Setter.Value>
+          </Setter>
       </Style>
 
       <!-- Style for the Menu itself -->
@@ -252,7 +266,7 @@ try {
 
 
   $PersistantWindowsPath = Join-Path $PSScriptRoot "button_persistant_windows.ps1"
-  $window.FindName("PersisantWindowsButton").Add_Click({
+  $window.FindName("PersistantWindowsButton").Add_Click({
       if (Test-Path $PersistantWindowsPath) {
         Start-Process pwsh -ArgumentList @('-File', $PersistantWindowsPath)
       }
