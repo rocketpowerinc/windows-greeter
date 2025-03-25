@@ -122,7 +122,7 @@ try {
                   <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
                       <MenuItem.Style>
                           <Style TargetType="MenuItem">
-                              <Setter Property="Foreground" Value="White"/>
+                              <Setter Property="Foreground" Value="red"/>
                               <Setter Property="FontSize" Value="16"/>
                               <Setter Property="FontWeight" Value="Bold"/>
                               <Setter Property="Background" Value="#2B2B2B"/>
