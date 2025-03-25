@@ -85,50 +85,23 @@ try {
       </Style>
 
       <!-- Style for Menu Items -->
-      <Style TargetType="MenuItem">
+      <Style TargetType="MenuItem" x:Key="NoIconMenuItemStyle">
           <Setter Property="Foreground" Value="White"/>
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/>
           <Setter Property="FontWeight" Value="Bold"/>
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
-          <Setter Property="Template">
-              <Setter.Value>
-                  <ControlTemplate TargetType="MenuItem">
-                      <Border x:Name="Border"
-                              Background="{TemplateBinding Background}"
-                              BorderBrush="{TemplateBinding BorderBrush}"
-                              BorderThickness="{TemplateBinding BorderThickness}">
-                          <ContentPresenter x:Name="Content"
-                                            ContentSource="Header"
-                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            Margin="{TemplateBinding Padding}"
-                                            RecognizesAccessKey="True"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                      </Border>
-                      <ControlTemplate.Triggers>
-                          <Trigger Property="IsMouseOver" Value="True">
-                              <Setter TargetName="Border" Property="Background" Value="#808080"/>
-                          </Trigger>
-                          <Trigger Property="IsEnabled" Value="False">
-                              <Setter Property="Foreground" Value="Gray"/>
-                          </Trigger>
-                          <Trigger Property="IsHighlighted" Value="True">
-                              <Setter TargetName="Border" Property="Background" Value="#808080"/>
-                          </Trigger>
-                          <Trigger Property="IsPressed" Value="True">
-                              <Setter TargetName="Border" Property="Background" Value="#A9A9A9"/>
-                          </Trigger>
-                      </ControlTemplate.Triggers>
-                  </ControlTemplate>
-              </Setter.Value>
+          <Setter Property="Icon" Value="{x:Null}"/>
+      </Style>
+
+      <!-- Style for the Menu itself -->
+      <Style TargetType="Menu">
+          <Setter Property="Background" Value="#1F1F1F"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="ItemContainerStyle">
+             <Style TargetType="MenuItem" BasedOn="{StaticResource NoIconMenuItemStyle}"/>
           </Setter>
-          <Style.Triggers>
-              <Trigger Property="IsEnabled" Value="False">
-                  <Setter Property="Foreground" Value="Gray"/>
-              </Trigger>
-          </Style.Triggers>
       </Style>
 
   </Window.Resources>
@@ -209,255 +182,178 @@ try {
     })
 
   # Add click actions for toolbar buttons
-  $minimizeButton = $window.FindName("MinimizeButton")
-  if ($minimizeButton) {
-    $minimizeButton.Add_Click({
-        $window.WindowState = [System.Windows.WindowState]::Minimized
-      })
-  }
-  else {
-    Write-Warning "MinimizeButton not found!"
-  }
+  $window.FindName("MinimizeButton").Add_Click({
+      $window.WindowState = [System.Windows.WindowState]::Minimized
+    })
 
-  $closeButton = $window.FindName("CloseButton")
-  if ($closeButton) {
-    $closeButton.Add_Click({
-        $window.Close()
-      })
-  }
-  else {
-    Write-Warning "CloseButton not found!"
-  }
+  $window.FindName("CloseButton").Add_Click({
+      $window.Close()
+    })
 
   # Add click actions for main buttons
-  $readMeButton = $window.FindName("ReadMeButton")
-  if ($readMeButton) {
-    $readMeButton.Add_Click({
-        try {
-          Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
-        }
-        catch {
-          Write-Warning "Failed to open Firefox.  Is Firefox installed?"
-        }
+  $window.FindName("ReadMeButton").Add_Click({
+      try {
+        Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
+      }
+      catch {
+        Write-Warning "Failed to open Firefox.  Is Firefox installed?"
+      }
 
-      })
-  }
-  else {
-    Write-Warning "ReadMeButton not found!"
-  }
+    })
 
-  $UniGetUIButton = $window.FindName("UniGetUIButton")
-  if ($UniGetUIButton) {
-    $UniGetUIPath = Join-Path $PSScriptRoot "button_open_UniGetUI.ps1"
-    $UniGetUIButton.Add_Click({
-        if (Test-Path $UniGetUIPath) {
-          Start-Process pwsh -ArgumentList @('-File', $UniGetUIPath)
-        }
-        else {
-          Write-Warning "UniGetUI script not found at '$UniGetUIPath'."
-        }
+  $UniGetUIPath = Join-Path $PSScriptRoot "button_open_UniGetUI.ps1"
+  $window.FindName("UniGetUIButton").Add_Click({
+      if (Test-Path $UniGetUIPath) {
+        Start-Process pwsh -ArgumentList @('-File', $UniGetUIPath)
+      }
+      else {
+        Write-Warning "UniGetUI script not found at '$UniGetUIPath'."
+      }
 
-      })
-  }
-  else {
-    Write-Warning "UniGetUIButton not found!"
-  }
+    })
 
+  $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
+  $window.FindName("DotfilesButton").Add_Click({
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
 
-  $DotfilesButton = $window.FindName("DotfilesButton")
-  if ($DotfilesButton) {
-    $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
-    $DotfilesButton.Add_Click({
-        # Store the root Grid of the main menu
-        $global:MainMenuGrid = $window.Content
-        # Reference the variable above to suppress vscode warning (optional)
-        [void]$global:MainMenuGrid
-
-        # Call the Dotfiles menu script
-        if (Test-Path $DotfilesMenuPath) {
-          & $DotfilesMenuPath
-        }
-        else {
-          Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
-        }
-      })
-  }
-  else {
-    Write-Warning "DotfilesButton not found!"
-  }
+      # Call the Dotfiles menu script
+      if (Test-Path $DotfilesMenuPath) {
+        & $DotfilesMenuPath
+      }
+      else {
+        Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
+      }
+    })
 
 
+  $window.FindName("DirectoriesButton").Add_Click({
+      Start-Process "explorer"
+    })
 
-  $DirectoriesButton = $window.FindName("DirectoriesButton")
-  if ($DirectoriesButton) {
-    $DirectoriesButton.Add_Click({
-        Start-Process "explorer"
-      })
-  }
-  else {
-    Write-Warning "DirectoriesButton not found!"
-  }
+  $window.FindName("TitusWinUtilButton").Add_Click({
+      #Consider using Invoke-WebRequest instead of irm, and add better error handling.
+      Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
+    })
 
+  $ScriptBinPath = Join-Path $PSScriptRoot "button_open_ScriptBin.ps1"
+  $window.FindName("ScriptBinButton").Add_Click({
+      if (Test-Path $ScriptBinPath) {
+        Start-Process pwsh -ArgumentList @('-File', $ScriptBinPath)
+      }
+      else {
+        Write-Warning "ScriptBin script not found at '$ScriptBinPath'."
+      }
+    })
 
-  $TitusWinUtilButton = $window.FindName("TitusWinUtilButton")
-  if ($TitusWinUtilButton) {
-    $TitusWinUtilButton.Add_Click({
-        #Consider using Invoke-WebRequest instead of irm, and add better error handling.
-        Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
-      })
-  }
-  else {
-    Write-Warning "TitusWinUtilButton not found!"
-  }
-
-
-  $ScriptBinButton = $window.FindName("ScriptBinButton")
-  if ($ScriptBinButton) {
-    $ScriptBinPath = Join-Path $PSScriptRoot "button_open_ScriptBin.ps1"
-    $ScriptBinButton.Add_Click({
-        if (Test-Path $ScriptBinPath) {
-          Start-Process pwsh -ArgumentList @('-File', $ScriptBinPath)
-        }
-        else {
-          Write-Warning "ScriptBin script not found at '$ScriptBinPath'."
-        }
-      })
-  }
-  else {
-    Write-Warning "ScriptBinButton not found!"
-  }
-
-  $MembersOnlyButton = $window.FindName("MembersOnlyButton")
-  if ($MembersOnlyButton) {
-    $MembersOnlyButton.Add_Click({
-        Write-Host "Members Only functionality not implemented."
-        #TODO: Implement members only functionality
-      })
-  }
-  else {
-    Write-Warning "MembersOnlyButton not found!"
-  }
+  $window.FindName("MembersOnlyButton").Add_Click({
+      Write-Host "Members Only functionality not implemented."
+      #TODO: Implement members only functionality
+    })
 
 
+  $PersistantWindowsPath = Join-Path $PSScriptRoot "button_persistant_windows.ps1"
+  $window.FindName("PersisantWindowsButton").Add_Click({
+      if (Test-Path $PersistantWindowsPath) {
+        Start-Process pwsh -ArgumentList @('-File', $PersistantWindowsPath)
+      }
+      else {
+        Write-Warning "Persistent Windows script not found at '$PersistantWindowsPath'."
+      }
 
-  $PersisantWindowsButton = $window.FindName("PersisantWindowsButton")
-  if ($PersisantWindowsButton) {
-    $PersistantWindowsPath = Join-Path $PSScriptRoot "button_persistant_windows.ps1"
-    $PersisantWindowsButton.Add_Click({
-        if (Test-Path $PersistantWindowsPath) {
-          Start-Process pwsh -ArgumentList @('-File', $PersistantWindowsPath)
-        }
-        else {
-          Write-Warning "Persistent Windows script not found at '$PersistantWindowsPath'."
-        }
-      })
-  }
-  else {
-    Write-Warning "PersisantWindowsButton not found!"
-  }
+    })
 
   # Add click actions for menu items
-  $toggleThemeMenuItem = $window.FindName("ToggleThemeMenuItem")
-  if ($toggleThemeMenuItem) {
-    $toggleThemeMenuItem.Add_Click({
-        if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
-            $window.Background.Color.ToString() -eq "#FF2B2B2B") {
-          $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
-        }
-        else {
-          $window.Background = New-Object System.Windows.Media.SolidColorBrush (
-            [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
-          )
-        }
-      })
-  }
-  else {
-    Write-Warning "ToggleThemeMenuItem not found!"
-  }
+  $window.FindName("ToggleThemeMenuItem").Add_Click({
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      }
+      else {
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
+      }
+    })
 
-  $aboutMenuItem = $window.FindName("AboutMenuItem")
-  if ($aboutMenuItem) {
-    $aboutMenuItem.Add_Click({
-        # Create a new window for the About dialog
-        $aboutWindow = New-Object System.Windows.Window
-        $aboutWindow.Title = "About"
-        $aboutWindow.Width = 400  # Increased width for the link
-        $aboutWindow.Height = 200 # Increased height for the link and spacing
-        $aboutWindow.WindowStartupLocation = "CenterOwner" #This works with ShowDialog()
-        $aboutWindow.Owner = $window # Set the owner to center relative to the main window
-        $aboutWindow.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43)) # Use the same dark background
+  $window.FindName("AboutMenuItem").Add_Click({
+      # Create a new window for the About dialog
+      $aboutWindow = New-Object System.Windows.Window
+      $aboutWindow.Title = "About"
+      $aboutWindow.Width = 400  # Increased width for the link
+      $aboutWindow.Height = 200 # Increased height for the link and spacing
+      $aboutWindow.WindowStartupLocation = "CenterOwner" #This works with ShowDialog()
+      $aboutWindow.Owner = $window # Set the owner to center relative to the main window
+      $aboutWindow.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43)) # Use the same dark background
 
-        # Create a Grid for the About window
-        $aboutGrid = New-Object System.Windows.Controls.Grid
-        $aboutGrid.Margin = "10" # Add some margin for better spacing
-        $aboutWindow.Content = $aboutGrid
+      # Create a Grid for the About window
+      $aboutGrid = New-Object System.Windows.Controls.Grid
+      $aboutGrid.Margin = "10" # Add some margin for better spacing
+      $aboutWindow.Content = $aboutGrid
 
-        #Row Definitions
-        $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 0
-        $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1
-        $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 2
+      #Row Definitions
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 0
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 2
 
 
-        # Add a TextBlock with the version information
-        $aboutText = New-Object System.Windows.Controls.TextBlock
-        $aboutText.Text = "Power Greeter v$version"  # Include the version
-        $aboutText.FontSize = 16
-        $aboutText.FontWeight = "Bold"
-        $aboutText.Foreground = [System.Windows.Media.Brushes]::White
-        $aboutText.HorizontalAlignment = "Center"
-        $aboutText.VerticalAlignment = "Center"
-        [System.Windows.Controls.Grid]::SetRow($aboutText, 0)
-        $aboutGrid.Children.Add($aboutText)
+      # Add a TextBlock with the version information
+      $aboutText = New-Object System.Windows.Controls.TextBlock
+      $aboutText.Text = "Power Greeter v$version"  # Include the version
+      $aboutText.FontSize = 16
+      $aboutText.FontWeight = "Bold"
+      $aboutText.Foreground = [System.Windows.Media.Brushes]::White
+      $aboutText.HorizontalAlignment = "Center"
+      $aboutText.VerticalAlignment = "Center"
+      [System.Windows.Controls.Grid]::SetRow($aboutText, 0)
+      $aboutGrid.Children.Add($aboutText)
 
-        # Add a TextBlock for the repository URL
-        $aboutLink = New-Object System.Windows.Controls.TextBlock
-        $aboutLink.Text = "Visit Rocket-Power-Included GitHub Repository"
-        $aboutLink.FontSize = 14
-        $aboutLink.Foreground = [System.Windows.Media.Brushes]::LightBlue # A color that suggests a link
-        $aboutLink.HorizontalAlignment = "Center"
-        $aboutLink.VerticalAlignment = "Center"
-        $aboutLink.Cursor = "Hand" # Change cursor to a hand
-        [System.Windows.Controls.Grid]::SetRow($aboutLink, 1)
+      # Add a TextBlock for the repository URL
+      $aboutLink = New-Object System.Windows.Controls.TextBlock
+      $aboutLink.Text = "Visit Rocket-Power-Included GitHub Repository"
+      $aboutLink.FontSize = 14
+      $aboutLink.Foreground = [System.Windows.Media.Brushes]::LightBlue # A color that suggests a link
+      $aboutLink.HorizontalAlignment = "Center"
+      $aboutLink.VerticalAlignment = "Center"
+      $aboutLink.Cursor = "Hand" # Change cursor to a hand
+      [System.Windows.Controls.Grid]::SetRow($aboutLink, 1)
 
-        # Add the click event to the link
-        $aboutLink.Add_MouseLeftButtonDown({
-            try {
-              Start-Process "explorer" $repoUrl # Open the URL in the default browser
-            }
-            catch {
-              Write-Warning "Could not open the URL in the browser."
-            }
+      # Add the click event to the link
+      $aboutLink.Add_MouseLeftButtonDown({
+          try {
+            Start-Process "explorer" $repoUrl # Open the URL in the default browser
+          }
+          catch {
+            Write-Warning "Could not open the URL in the browser."
+          }
 
-          })
-
-
-        $aboutGrid.Children.Add($aboutLink)
-
-        # Add a TextBlock with the version information
-        $aboutClose = New-Object System.Windows.Controls.Button
-        $aboutClose.Content = "Close"  # Include the version
-        $aboutClose.FontSize = 14
-        $aboutClose.FontWeight = "Bold"
-        $aboutClose.Foreground = [System.Windows.Media.Brushes]::White
-        $aboutClose.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43))
-        $aboutClose.HorizontalAlignment = "Center"
-        $aboutClose.VerticalAlignment = "Center"
-        $aboutClose.Cursor = "Hand" # Change cursor to a hand
-        [System.Windows.Controls.Grid]::SetRow($aboutClose, 2)
-        $aboutClose.Add_Click({
-            $aboutWindow.Close()
-          })
-        $aboutGrid.Children.Add($aboutClose)
+        })
 
 
-        # Show the About window
-        $aboutWindow.ShowDialog()
-      })
-  }
-  else {
-    Write-Warning "AboutMenuItem not found!"
-  }
+      $aboutGrid.Children.Add($aboutLink)
 
+      # Add a TextBlock with the version information
+      $aboutClose = New-Object System.Windows.Controls.Button
+      $aboutClose.Content = "Close"  # Include the version
+      $aboutClose.FontSize = 14
+      $aboutClose.FontWeight = "Bold"
+      $aboutClose.Foreground = [System.Windows.Media.Brushes]::White
+      $aboutClose.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43))
+      $aboutClose.HorizontalAlignment = "Center"
+      $aboutClose.VerticalAlignment = "Center"
+      $aboutClose.Cursor = "Hand" # Change cursor to a hand
+      [System.Windows.Controls.Grid]::SetRow($aboutClose, 2)
+      $aboutClose.Add_Click({
+          $aboutWindow.Close()
+        })
+      $aboutGrid.Children.Add($aboutClose)
+
+
+      # Show the About window
+      $aboutWindow.ShowDialog()
+    })
 
 
   # Show the window
