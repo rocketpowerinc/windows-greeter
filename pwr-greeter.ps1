@@ -95,23 +95,30 @@ try {
           <Setter Property="Template">
               <Setter.Value>
                   <ControlTemplate TargetType="MenuItem">
-                      <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="0">
-                          <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                      <Border x:Name="Border"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}">
+                          <Grid>
+                              <ContentPresenter x:Name="Content"
+                                                ContentSource="Header"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Margin="{TemplateBinding Padding}"
+                                                RecognizesAccessKey="True"/>
+                          </Grid>
                       </Border>
                       <ControlTemplate.Triggers>
                           <Trigger Property="IsMouseOver" Value="True">
-                              <Setter Property="Background" Value="#808080" TargetName="border"/>
+                              <Setter TargetName="Border" Property="Background" Value="#808080"/>
+                          </Trigger>
+                          <Trigger Property="IsEnabled" Value="False">
+                              <Setter Property="Foreground" Value="Gray"/>
                           </Trigger>
                       </ControlTemplate.Triggers>
                   </ControlTemplate>
               </Setter.Value>
           </Setter>
-      </Style>
-
-      <!-- Style for the Menu itself -->
-      <Style TargetType="Menu">
-          <Setter Property="Background" Value="#1F1F1F"/>
-          <Setter Property="BorderThickness" Value="0"/>
       </Style>
 
   </Window.Resources>
