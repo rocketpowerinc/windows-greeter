@@ -86,7 +86,7 @@ try {
 
       <!-- Style for Menu Items -->
       <Style TargetType="MenuItem">
-          <Setter Property="Foreground" Value="White"/>
+          <Setter Property="Foreground" Value="#2B2B2B"/>
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
