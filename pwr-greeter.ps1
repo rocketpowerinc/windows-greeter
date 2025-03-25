@@ -1,12 +1,10 @@
-{
-  # Import necessary assemblies
-  Add-Type -AssemblyName PresentationFramework
+Add-Type -AssemblyName PresentationFramework
 
-  #* Asset Paths
-  $firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
+#* Asset Paths
+$firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
 
-  # Load the XAML with a custom dark toolbar and no native title bar
-  $xaml = [xml]@"
+# Load the XAML with a custom dark toolbar and no native title bar
+$xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="pwr-greeter"
@@ -25,28 +23,6 @@
             <GradientStop Color="#1F1F1F" Offset="0.0"/>
             <GradientStop Color="#2B2B2B" Offset="1.0"/>
         </LinearGradientBrush>
-        <Style TargetType="Button">
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Width" Value="260"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Margin" Value="0,10,0,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" Background="{StaticResource ButtonBackground}" Effect="{StaticResource ButtonShadow}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="Gray" TargetName="border"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="ToolbarButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -88,60 +64,62 @@
 </Window>
 "@
 
-  # Load the XAML into a reader
-  $reader = New-Object System.Xml.XmlNodeReader($xaml)
-  $window = [Windows.Markup.XamlReader]::Load($reader)
+# Load the XAML into a reader
+$reader = New-Object System.Xml.XmlNodeReader($xaml)
+$window = [Windows.Markup.XamlReader]::Load($reader)
 
-  # Enable dragging the window by the toolbar
-  $window.Add_MouseLeftButtonDown({
-      $window.DragMove()
-    })
+# Enable dragging the window by the toolbar
+$window.Add_MouseLeftButtonDown({
+    $window.DragMove()
+  })
 
-  # Add click actions for toolbar buttons
-  $window.FindName("MinimizeButton").Add_Click({
-      $window.WindowState = [System.Windows.WindowState]::Minimized
-    })
+# Add click actions for toolbar buttons
+$window.FindName("MinimizeButton").Add_Click({
+    $window.WindowState = [System.Windows.WindowState]::Minimized
+  })
 
-  $window.FindName("CloseButton").Add_Click({
-      $window.Close()
-    })
+$window.FindName("CloseButton").Add_Click({
+    $window.Close()
+  })
 
-  # Add click action for theme toggle in the hamburger menu
-  $window.FindName("ToggleThemeMenuItem").Add_Click({
-      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
-          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
-        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
-      }
-      else {
-        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
-          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
-        )
-      }
-    })
+# Add click actions for menu items
+$window.FindName("ToggleThemeMenuItem").Add_Click({
+    if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+        $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+      $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+    }
+    else {
+      $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+        [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+      )
+    }
+  })
 
-  # Add click action for About menu item
-  $window.FindName("AboutMenuItem").Add_Click({
-      $aboutWindow = New-Object System.Windows.Window
-      $aboutWindow.Title = "About"
-      $aboutWindow.Width = 300
-      $aboutWindow.Height = 150
-      $aboutWindow.WindowStartupLocation = "CenterOwner"
-      $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+$window.FindName("AboutMenuItem").Add_Click({
+    # Create a new window for the About dialog
+    $aboutWindow = New-Object System.Windows.Window
+    $aboutWindow.Title = "About"
+    $aboutWindow.Width = 300
+    $aboutWindow.Height = 150
+    $aboutWindow.WindowStartupLocation = "CenterOwner"
+    $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
 
-      $aboutGrid = New-Object System.Windows.Controls.Grid
-      $aboutWindow.Content = $aboutGrid
+    # Create a Grid for the About window
+    $aboutGrid = New-Object System.Windows.Controls.Grid
+    $aboutWindow.Content = $aboutGrid
 
-      $aboutText = New-Object System.Windows.Controls.TextBlock
-      $aboutText.Text = "Power Greeter v1.0.0"
-      $aboutText.FontSize = 16
-      $aboutText.FontWeight = "Bold"
-      $aboutText.HorizontalAlignment = "Center"
-      $aboutText.VerticalAlignment = "Center"
-      $aboutGrid.Children.Add($aboutText)
+    # Add a TextBlock with the version information
+    $aboutText = New-Object System.Windows.Controls.TextBlock
+    $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+    $aboutText.FontSize = 16
+    $aboutText.FontWeight = "Bold"
+    $aboutText.HorizontalAlignment = "Center"
+    $aboutText.VerticalAlignment = "Center"
+    $aboutGrid.Children.Add($aboutText)
 
-      $aboutWindow.ShowDialog()
-    })
+    # Show the About window
+    $aboutWindow.ShowDialog()
+  })
 
-  # Show the window
-  $window.ShowDialog()
-}
+# Show the window
+$window.ShowDialog()
