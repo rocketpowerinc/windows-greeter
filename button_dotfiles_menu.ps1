@@ -74,6 +74,7 @@ $backButton.Add_Click({
   })
 
 #*################### Button Click Handlers ######################
+
 $refresh_Dotfiles_Button.Add_Click({
     try {
       # Define the target directory for the dotfiles
@@ -101,6 +102,8 @@ $refresh_Dotfiles_Button.Add_Click({
       Write-Host "An error occurred while refreshing dotfiles: $($_.Exception.Message)" -ForegroundColor Red
     }
   })
+
+##############################################################################################################
 $source_PWSH_Profile_Button.Add_Click({
     try {
       # Define the path to the pwsh profile
@@ -135,7 +138,14 @@ $source_PWSH_Profile_Button.Add_Click({
       Write-Host "An error occurred while sourcing the pwsh profile: $($_.Exception.Message)" -ForegroundColor Red
     }
   })
+
+##############################################################################################################
+
 $source_Default_Powershell_Profile_Button.Add_Click({ Write-Host "Sourcing Default Powershell Profile..." })
+
+##############################################################################################################
+
+
 $source_WSL_Bash_Dotfile_Button.Add_Click({ Write-Host "Sourcing WSL Bash Dotfile..." })
 
 # Set the window content to the Dotfiles menu
