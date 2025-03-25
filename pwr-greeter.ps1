@@ -3,7 +3,7 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.
 
 .NOTES
 * Requires the PresentationFramework assembly.
@@ -28,14 +28,14 @@ try {
   # Load the XAML with a custom dark toolbar and no native title bar
   $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="pwr-greeter"
-        Height="700" Width="600"
-        Background="#2B2B2B"
-        WindowStyle="None"
-        ResizeMode="CanResizeWithGrip"
-        AllowsTransparency="True"
-        WindowStartupLocation="CenterScreen">  <!-- Added to center the window -->
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="pwr-greeter"
+      Height="700" Width="600"
+      Background="#2B2B2B"
+      WindowStyle="None"
+      ResizeMode="CanResizeWithGrip"
+      AllowsTransparency="True"
+      WindowStartupLocation="CenterScreen">  <!-- Added to center the window -->
   <Window.Resources>
       <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
           <GradientStop Color="#2b2b2b" Offset="0.0"/>
@@ -79,6 +79,21 @@ try {
           <Setter Property="VerticalAlignment" Value="Center"/>
           <Setter Property="Cursor" Value="Hand"/> <!-- Added for toolbar buttons -->
       </Style>
+
+      <!-- Style for Menu Items -->
+      <Style TargetType="MenuItem">
+          <Setter Property="Foreground" Value="White"/>
+          <Setter Property="Background" Value="#2B2B2B"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="Padding" Value="5"/>
+      </Style>
+
+      <!-- Style for the Menu itself -->
+      <Style TargetType="Menu">
+          <Setter Property="Background" Value="#1F1F1F"/>
+          <Setter Property="BorderThickness" Value="0"/>
+      </Style>
+
   </Window.Resources>
   <Grid Margin="0">
       <Grid.RowDefinitions>
@@ -86,19 +101,32 @@ try {
           <RowDefinition Height="Auto"/>
           <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
+
+      <!-- Toolbar -->
       <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
           <Grid>
               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"/>
                   <ColumnDefinition Width="*"/>
                   <ColumnDefinition Width="Auto"/>
               </Grid.ColumnDefinitions>
-              <TextBlock Grid.Column="0" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
-              <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+
+              <!-- Hamburger Menu -->
+              <Menu Grid.Column="0" VerticalAlignment="Center">
+                  <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
+                      <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
+                      <MenuItem x:Name="AboutMenuItem" Header="About"/>
+                  </MenuItem>
+              </Menu>
+
+              <TextBlock Grid.Column="1" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+              <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
                   <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
                   <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
               </StackPanel>
           </Grid>
       </Border>
+
       <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
           <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
       </Label>
@@ -227,6 +255,45 @@ try {
 
     })
 
+  # Add click actions for menu items
+  $window.FindName("ToggleThemeMenuItem").Add_Click({
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      }
+      else {
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
+      }
+    })
+
+  $window.FindName("AboutMenuItem").Add_Click({
+      # Create a new window for the About dialog
+      $aboutWindow = New-Object System.Windows.Window
+      $aboutWindow.Title = "About"
+      $aboutWindow.Width = 300
+      $aboutWindow.Height = 150
+      $aboutWindow.WindowStartupLocation = "CenterOwner"
+      $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+
+      # Create a Grid for the About window
+      $aboutGrid = New-Object System.Windows.Controls.Grid
+      $aboutWindow.Content = $aboutGrid
+
+      # Add a TextBlock with the version information
+      $aboutText = New-Object System.Windows.Controls.TextBlock
+      $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+      $aboutText.FontSize = 16
+      $aboutText.FontWeight = "Bold"
+      $aboutText.HorizontalAlignment = "Center"
+      $aboutText.VerticalAlignment = "Center"
+      $aboutGrid.Children.Add($aboutText)
+
+      # Show the About window
+      $aboutWindow.ShowDialog()
+    })
+
   # Show the window
   $window.ShowDialog()
 
@@ -238,5 +305,3 @@ catch {
 finally {
   #Optional cleanup
 }
-
-
