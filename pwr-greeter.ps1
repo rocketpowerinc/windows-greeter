@@ -41,133 +41,136 @@ try {
       AllowsTransparency="True"
       WindowStartupLocation="CenterScreen">  <!-- Added to center the window -->
   <Window.Resources>
-      <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
-          <GradientStop Color="#2b2b2b" Offset="0.0"/>
-          <GradientStop Color="#2b2b2b" Offset="1.0"/>
-      </LinearGradientBrush>
-      <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
-      <LinearGradientBrush x:Key="ToolbarBackground" StartPoint="0,0" EndPoint="0,1">
-          <GradientStop Color="#1F1F1F" Offset="0.0"/>
-          <GradientStop Color="#2B2B2B" Offset="1.0"/>
-      </LinearGradientBrush>
-      <Style TargetType="Button">
-          <Setter Property="Foreground" Value="White"/>
-          <Setter Property="FontSize" Value="12"/>
-          <Setter Property="FontWeight" Value="Bold"/>
-          <Setter Property="Width" Value="260"/>
-          <Setter Property="Height" Value="45"/>
-          <Setter Property="Margin" Value="0,10,0,0"/>
-          <Setter Property="Cursor" Value="Hand"/> <!-- Added to indicate clickable buttons -->
-          <Setter Property="Template">
-              <Setter.Value>
-                  <ControlTemplate TargetType="Button">
-                      <Border x:Name="border" Background="{StaticResource ButtonBackground}" Effect="{StaticResource ButtonShadow}">
-                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                      </Border>
-                      <ControlTemplate.Triggers>
-                          <Trigger Property="IsMouseOver" Value="True">
-                              <Setter Property="Background" Value="Gray" TargetName="border"/>
-                          </Trigger>
-                      </ControlTemplate.Triggers>
-                  </ControlTemplate>
-              </Setter.Value>
-          </Setter>
-      </Style>
-      <Style x:Key="ToolbarButton" TargetType="Button">
-          <Setter Property="Foreground" Value="White"/>
-          <Setter Property="Background" Value="Transparent"/>
-          <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="Width" Value="30"/>
-          <Setter Property="Height" Value="20"/>
-          <Setter Property="Margin" Value="2,0,2,0"/>
-          <Setter Property="VerticalAlignment" Value="Center"/>
-          <Setter Property="Cursor" Value="Hand"/> <!-- Added for toolbar buttons -->
-      </Style>
+    <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
+      <GradientStop Color="#2b2b2b" Offset="0.0"/>
+      <GradientStop Color="#2b2b2b" Offset="1.0"/>
+    </LinearGradientBrush>
+    <DropShadowEffect x:Key="ButtonShadow" BlurRadius="10" ShadowDepth="3" Color="Black" Opacity="0.7"/>
+    <LinearGradientBrush x:Key="ToolbarBackground" StartPoint="0,0" EndPoint="0,1">
+      <GradientStop Color="#1F1F1F" Offset="0.0"/>
+      <GradientStop Color="#2B2B2B" Offset="1.0"/>
+    </LinearGradientBrush>
+    <Style TargetType="Button">
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="Width" Value="260"/>
+      <Setter Property="Height" Value="45"/>
+      <Setter Property="Margin" Value="0,10,0,0"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <!-- Added to indicate clickable buttons -->
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="border" Background="{StaticResource ButtonBackground}" Effect="{StaticResource ButtonShadow}">
+              <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="Gray" TargetName="border"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Setter>
+    </Style>
+    <Style x:Key="ToolbarButton" TargetType="Button">
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Width" Value="30"/>
+      <Setter Property="Height" Value="20"/>
+      <Setter Property="Margin" Value="2,0,2,0"/>
+      <Setter Property="VerticalAlignment" Value="Center"/>
+      <Setter Property="Cursor" Value="Hand"/>
+      <!-- Added for toolbar buttons -->
+    </Style>
 
-      <!-- Style for Menu Items -->
-      <Style TargetType="MenuItem" x:Key="NoIconMenuItemStyle">
-          <Setter Property="Foreground" Value="White"/>
-          <Setter Property="Background" Value="#2B2B2B"/>
-          <Setter Property="FontSize" Value="12"/>
-          <Setter Property="FontWeight" Value="Bold"/>
-          <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="Padding" Value="5"/>
-          <Setter Property="Icon" Value="{x:Null}"/>
-      </Style>
+    <!-- Style for Menu Items -->
+    <Style TargetType="MenuItem" x:Key="NoIconMenuItemStyle">
+      <Setter Property="Foreground" Value="White"/>
+      <Setter Property="Background" Value="#2B2B2B"/>
+      <Setter Property="FontSize" Value="12"/>
+      <Setter Property="FontWeight" Value="Bold"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="Padding" Value="5"/>
+      <Setter Property="Icon" Value="{x:Null}"/>
+    </Style>
 
-      <!-- Style for the Menu itself -->
-      <Style TargetType="Menu">
-          <Setter Property="Background" Value="#1F1F1F"/>
-          <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="ItemContainerStyle">
-             <Style TargetType="MenuItem" BasedOn="{StaticResource NoIconMenuItemStyle}"/>
-          </Setter>
-      </Style>
-
+    <!-- Style for the Menu itself -->
+    <Style TargetType="Menu">
+      <Setter Property="Background" Value="#1F1F1F"/>
+      <Setter Property="BorderThickness" Value="0"/>
+      <Setter Property="ItemContainerStyle">
+        <Setter.Value>
+          <Style TargetType="MenuItem" BasedOn="{StaticResource NoIconMenuItemStyle}"/>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Window.Resources>
   <Grid Margin="0">
-      <Grid.RowDefinitions>
-          <RowDefinition Height="40"/>
-          <RowDefinition Height="Auto"/>
-          <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="40"/>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
 
-      <!-- Toolbar -->
-      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
-          <Grid>
-              <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto"/>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="Auto"/>
-              </Grid.ColumnDefinitions>
+    <!-- Toolbar -->
+    <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
 
-              <!-- Hamburger Menu -->
-              <Menu Grid.Column="0" VerticalAlignment="Center">
-                  <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
-                      <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
-                      <MenuItem x:Name="AboutMenuItem" Header="About"/>
-                  </MenuItem>
-              </Menu>
+        <!-- Hamburger Menu -->
+        <Menu Grid.Column="0" VerticalAlignment="Center">
+          <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
+            <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
+            <MenuItem x:Name="AboutMenuItem" Header="About"/>
+          </MenuItem>
+        </Menu>
 
-              <TextBlock Grid.Column="1" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
-              <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
-                  <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
-                  <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
-              </StackPanel>
-          </Grid>
-      </Border>
-
-      <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
-          <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
-      </Label>
-      <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-          Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
-      <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
-          <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*"/>
-              <ColumnDefinition Width="*"/>
-          </Grid.ColumnDefinitions>
-          <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-              <RowDefinition Height="Auto"/>
-          </Grid.RowDefinitions>
-          <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
-              <StackPanel Orientation="Horizontal">
-                  <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
-                  <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
-              </StackPanel>
-          </Button>
-          <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
-          <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📂 Dotfiles" Margin="10"/>
-          <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
-          <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
-          <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
-          <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
+        <TextBlock Grid.Column="1" Text="pwr-greeter" Foreground="White" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="10,0,0,0"/>
+        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">
+          <Button x:Name="MinimizeButton" Content="_" Style="{StaticResource ToolbarButton}"/>
+          <Button x:Name="CloseButton" Content="X" Style="{StaticResource ToolbarButton}"/>
+        </StackPanel>
       </Grid>
+    </Border>
+
+    <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
+      <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+    </Label>
+    <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0" Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
+    <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
+        <StackPanel Orientation="Horizontal">
+          <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
+          <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
+        </StackPanel>
+      </Button>
+      <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
+      <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📂 Dotfiles" Margin="10"/>
+      <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
+      <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
+      <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
+      <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
+      <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
+    </Grid>
   </Grid>
 </Window>
 "@
