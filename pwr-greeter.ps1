@@ -1,10 +1,12 @@
-Add-Type -AssemblyName PresentationFramework
+.{
+  # Import necessary assemblies
+  Add-Type -AssemblyName PresentationFramework
 
-#* Asset Paths
-$firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
+  #* Asset Paths
+  $firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png"
 
-# Load the XAML with a custom dark toolbar and no native title bar
-$xaml = [xml]@"
+  # Load the XAML with a custom dark toolbar and no native title bar
+  $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="pwr-greeter"
@@ -23,6 +25,28 @@ $xaml = [xml]@"
             <GradientStop Color="#1F1F1F" Offset="0.0"/>
             <GradientStop Color="#2B2B2B" Offset="1.0"/>
         </LinearGradientBrush>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="260"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="0,10,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{StaticResource ButtonBackground}" Effect="{StaticResource ButtonShadow}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="Gray" TargetName="border"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="ToolbarButton" TargetType="Button">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="Transparent"/>
@@ -60,66 +84,145 @@ $xaml = [xml]@"
                 </StackPanel>
             </Grid>
         </Border>
+        <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
+            <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
+        </Label>
+        <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
+            Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
+        <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" Content="📖 ReadMe" Margin="10"/>
+            <Button x:Name="UniGetUIButton" Grid.Column="1" Grid.Row="0" Content="📦 UniGetUI + Bundles" Margin="10"/>
+            <Button x:Name="DotfilesButton" Grid.Column="0" Grid.Row="1" Content="📂 Dotfiles" Margin="10"/>
+            <Button x:Name="DirectoriesButton" Grid.Column="1" Grid.Row="1" Content="📁 Directories" Margin="10"/>
+            <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
+            <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
+            <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
+            <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistent Windows" Margin="10"/>
+        </Grid>
     </Grid>
 </Window>
 "@
 
-# Load the XAML into a reader
-$reader = New-Object System.Xml.XmlNodeReader($xaml)
-$window = [Windows.Markup.XamlReader]::Load($reader)
+  # Load the XAML into a reader
+  $reader = New-Object System.Xml.XmlNodeReader($xaml)
+  $window = [Windows.Markup.XamlReader]::Load($reader)
 
-# Enable dragging the window by the toolbar
-$window.Add_MouseLeftButtonDown({
-    $window.DragMove()
-  })
+  # Enable dragging the window by the toolbar
+  $window.Add_MouseLeftButtonDown({
+      $window.DragMove()
+    })
 
-# Add click actions for toolbar buttons
-$window.FindName("MinimizeButton").Add_Click({
-    $window.WindowState = [System.Windows.WindowState]::Minimized
-  })
+  # Add click actions for toolbar buttons
+  $window.FindName("MinimizeButton").Add_Click({
+      $window.WindowState = [System.Windows.WindowState]::Minimized
+    })
 
-$window.FindName("CloseButton").Add_Click({
-    $window.Close()
-  })
+  $window.FindName("CloseButton").Add_Click({
+      $window.Close()
+    })
 
-# Add click actions for menu items
-$window.FindName("ToggleThemeMenuItem").Add_Click({
-    if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
-        $window.Background.Color.ToString() -eq "#FF2B2B2B") {
-      $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
-    }
-    else {
-      $window.Background = New-Object System.Windows.Media.SolidColorBrush (
-        [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
-      )
-    }
-  })
+  # Add click actions for main buttons
+  $window.FindName("ReadMeButton").Add_Click({
+      Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
+    })
 
-$window.FindName("AboutMenuItem").Add_Click({
-    # Create a new window for the About dialog
-    $aboutWindow = New-Object System.Windows.Window
-    $aboutWindow.Title = "About"
-    $aboutWindow.Width = 300
-    $aboutWindow.Height = 150
-    $aboutWindow.WindowStartupLocation = "CenterOwner"
-    $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+  $window.FindName("UniGetUIButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_UniGetUI.ps1')
+    })
 
-    # Create a Grid for the About window
-    $aboutGrid = New-Object System.Windows.Controls.Grid
-    $aboutWindow.Content = $aboutGrid
+  $window.FindName("DotfilesButton").Add_Click({
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
 
-    # Add a TextBlock with the version information
-    $aboutText = New-Object System.Windows.Controls.TextBlock
-    $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
-    $aboutText.FontSize = 16
-    $aboutText.FontWeight = "Bold"
-    $aboutText.HorizontalAlignment = "Center"
-    $aboutText.VerticalAlignment = "Center"
-    $aboutGrid.Children.Add($aboutText)
+      # Call the Dotfiles menu script
+      & 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_dotfiles_menu.ps1'
+    })
 
-    # Show the About window
-    $aboutWindow.ShowDialog()
-  })
 
-# Show the window
-$window.ShowDialog()
+  $window.FindName("DirectoriesButton").Add_Click({
+      Start-Process "explorer"
+    })
+
+  $window.FindName("TitusWinUtilButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-NoProfile', '-Command', '(irm ''https://christitus.com/win'') | iex')
+    })
+
+  $window.FindName("ScriptBinButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-File', 'C:\Users\rocket\GitHub-pwr\windows-greeter\button_open_ScriptBin.ps1')
+    })
+
+  $window.FindName("MembersOnlyButton").Add_Click({
+      write-host "Members Only"
+    })
+
+  $window.FindName("PersisantWindowsButton").Add_Click({
+      Start-Process pwsh -ArgumentList @('-File', (Join-Path $PSScriptRoot 'button_persistant_windows.ps1'))
+    })
+
+  $window.FindName("ToggleThemeButton").Add_Click({
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      }
+      else {
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
+      }
+    })
+
+  # Add click actions for menu items
+  $window.FindName("ToggleThemeMenuItem").Add_Click({
+      if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
+          $window.Background.Color.ToString() -eq "#FF2B2B2B") {
+        $window.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      }
+      else {
+        $window.Background = New-Object System.Windows.Media.SolidColorBrush (
+          [System.Windows.Media.Color]::FromRgb(43, 43, 43) # RGB equivalent of #2B2B2B
+        )
+      }
+    })
+
+  $window.FindName("AboutMenuItem").Add_Click({
+      # Create a new window for the About dialog
+      $aboutWindow = New-Object System.Windows.Window
+      $aboutWindow.Title = "About"
+      $aboutWindow.Width = 300
+      $aboutWindow.Height = 150
+      $aboutWindow.WindowStartupLocation = "CenterOwner"
+      $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+
+      # Create a Grid for the About window
+      $aboutGrid = New-Object System.Windows.Controls.Grid
+      $aboutWindow.Content = $aboutGrid
+
+      # Add a TextBlock with the version information
+      $aboutText = New-Object System.Windows.Controls.TextBlock
+      $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+      $aboutText.FontSize = 16
+      $aboutText.FontWeight = "Bold"
+      $aboutText.HorizontalAlignment = "Center"
+      $aboutText.VerticalAlignment = "Center"
+      $aboutGrid.Children.Add($aboutText)
+
+      # Show the About window
+      $aboutWindow.ShowDialog()
+    })
+
+  # Show the window
+  $window.ShowDialog()
+}
