@@ -118,24 +118,8 @@ try {
               </Grid.ColumnDefinitions>
 
               <!-- Hamburger Menu -->
-              <Menu Grid.Column="0" VerticalAlignment="Center" Background="Transparent">
+              <Menu Grid.Column="0" VerticalAlignment="Center">
                   <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
-                      <MenuItem.Style>
-                          <Style TargetType="MenuItem">
-                              <Setter Property="Foreground" Value="red"/>
-                              <Setter Property="FontSize" Value="16"/>
-                              <Setter Property="FontWeight" Value="Bold"/>
-                              <Setter Property="Background" Value="#2B2B2B"/>
-                              <Setter Property="Padding" Value="5"/>
-                              <Style.Triggers>
-                                  <Trigger Property="IsHighlighted" Value="True">
-                                      <Setter Property="Background" Value="#2B2B2B"/>
-                                      <Setter Property="Foreground" Value="White"/>
-                                  </Trigger>
-                              </Style.Triggers>
-                          </Style>
-                      </MenuItem.Style>
-
                       <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
                       <MenuItem x:Name="AboutMenuItem" Header="About"/>
                   </MenuItem>
