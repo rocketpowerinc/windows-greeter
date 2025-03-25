@@ -99,14 +99,13 @@ try {
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
                               BorderThickness="{TemplateBinding BorderThickness}">
-                          <Grid>
-                              <ContentPresenter x:Name="Content"
-                                                ContentSource="Header"
-                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                Margin="{TemplateBinding Padding}"
-                                                RecognizesAccessKey="True"/>
-                          </Grid>
+                          <ContentPresenter x:Name="Content"
+                                            ContentSource="Header"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            Margin="{TemplateBinding Padding}"
+                                            RecognizesAccessKey="True"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                       </Border>
                       <ControlTemplate.Triggers>
                           <Trigger Property="IsMouseOver" Value="True">
@@ -115,10 +114,21 @@ try {
                           <Trigger Property="IsEnabled" Value="False">
                               <Setter Property="Foreground" Value="Gray"/>
                           </Trigger>
+                          <Trigger Property="IsHighlighted" Value="True">
+                              <Setter TargetName="Border" Property="Background" Value="#808080"/>
+                          </Trigger>
+                          <Trigger Property="IsPressed" Value="True">
+                              <Setter TargetName="Border" Property="Background" Value="#A9A9A9"/>
+                          </Trigger>
                       </ControlTemplate.Triggers>
                   </ControlTemplate>
               </Setter.Value>
           </Setter>
+          <Style.Triggers>
+              <Trigger Property="IsEnabled" Value="False">
+                  <Setter Property="Foreground" Value="Gray"/>
+              </Trigger>
+          </Style.Triggers>
       </Style>
 
   </Window.Resources>
