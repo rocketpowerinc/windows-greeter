@@ -91,7 +91,7 @@ try {
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="Padding" Value="5"/>
+          <Setter Property="Padding" Value="0"/>
       </Style>
 
       <!-- Style for the Menu itself -->
