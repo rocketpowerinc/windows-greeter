@@ -35,14 +35,14 @@ function New-Button($content) {
 $refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
-$copy_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
-$buttonsPanel.Children.Add($copy_PWSH_Profile_Button)
+$source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
+$buttonsPanel.Children.Add($source_PWSH_Profile_Button)
 
-$copy_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
-$buttonsPanel.Children.Add($copy_Default_Powershell_Profile_Button)
+$source_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
+$buttonsPanel.Children.Add($source_Default_Powershell_Profile_Button)
 
-$copy_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
-$buttonsPanel.Children.Add($copy_WSL_Bash_Dotfile_Button)
+$source_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
+$buttonsPanel.Children.Add($source_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
 $dotfilesMenu.Children.Add($buttonsPanel)
@@ -101,9 +101,42 @@ $refresh_Dotfiles_Button.Add_Click({
       Write-Host "An error occurred while refreshing dotfiles: $($_.Exception.Message)" -ForegroundColor Red
     }
   })
-$copy_PWSH_Profile_Button.Add_Click({ Write-Host "Copying pwsh 7+ Profile..." })
-$copy_Default_Powershell_Profile_Button.Add_Click({ Write-Host "Copying Default Powershell Profile..." })
-$copy_WSL_Bash_Dotfile_Button.Add_Click({ Write-Host "Copying WSL Bash Dotfile..." })
+$source_PWSH_Profile_Button.Add_Click({
+    try {
+      # Define the path to the pwsh profile
+      $profilePath = $PROFILE.CurrentUserAllHosts
+      $GithubDotfilesPath = Join-Path $env:USERPROFILE "Github-pwr\dotfiles\pwsh\profile.ps1"
+      $sourceLine = ". `"$GithubDotfilesPath`""  # Corrected quoting and added space before the path
+
+      # Determine the directory containing the profile (no need for $configDir here)
+      $profileDirectory = Split-Path -Path $profilePath -Parent
+
+      # Ensure the directory exists
+      if (-not (Test-Path $profileDirectory)) {
+        New-Item -ItemType Directory -Path $profileDirectory -Force | Out-Null
+      }
+
+      # Ensure the profile.ps1 file exists
+      if (-not (Test-Path $profilePath)) {
+        New-Item -ItemType File -Path $profilePath -Force | Out-Null
+      }
+
+      # Check if the profile already sources the dotfiles profile
+      if (-not (Get-Content $profilePath | Where-Object { $_ -like "*$($sourceLine.TrimStart('.'))*" })) {
+        # Using -like for more robust matching and trimming initial dot
+        Add-Content -Path $profilePath -Value $sourceLine
+        Write-Host "pwsh profile has been sourced!" -ForegroundColor Green
+      }
+      else {
+        Write-Host "pwsh profile already sourced!" -ForegroundColor Yellow
+      }
+    }
+    catch {
+      Write-Host "An error occurred while sourcing the pwsh profile: $($_.Exception.Message)" -ForegroundColor Red
+    }
+  })
+$source_Default_Powershell_Profile_Button.Add_Click({ Write-Host "Sourcing Default Powershell Profile..." })
+$source_WSL_Bash_Dotfile_Button.Add_Click({ Write-Host "Sourcing WSL Bash Dotfile..." })
 
 # Set the window content to the Dotfiles menu
 $window.Content = $dotfilesMenu
