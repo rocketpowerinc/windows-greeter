@@ -125,7 +125,7 @@ try {
                               <Setter Property="Foreground" Value="White"/>
                               <Setter Property="FontSize" Value="16"/>
                               <Setter Property="FontWeight" Value="Bold"/>
-                              <Setter Property="Background" Value="Transparent"/>
+                              <Setter Property="Background" Value="#2B2B2B"/>
                               <Setter Property="Padding" Value="5"/>
                               <Style.Triggers>
                                   <Trigger Property="IsHighlighted" Value="True">
