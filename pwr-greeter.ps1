@@ -90,29 +90,8 @@ try {
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
-          <Setter Property="Padding" Value="5"/>
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Center align text -->
-          <Setter Property="VerticalContentAlignment" Value="Center"/>
-          <Setter Property="Cursor" Value="Hand"/> <!-- Indicate clickable items -->
-          <Setter Property="Template">
-              <Setter.Value>
-                  <ControlTemplate TargetType="MenuItem">
-                      <Border x:Name="border" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                      </Border>
-                      <ControlTemplate.Triggers>
-                          <Trigger Property="IsMouseOver" Value="True">
-                              <Setter TargetName="border" Property="Background" Value="Gray"/> <!-- Darker background on hover -->
-                          </Trigger>
-                          <Trigger Property="IsEnabled" Value="False">
-                              <Setter TargetName="border" Property="Background" Value="#444444"/> <!-- Disabled state -->
-                              <Setter Property="Foreground" Value="#888888"/> <!-- Disabled text color -->
-                          </Trigger>
-                      </ControlTemplate.Triggers>
-                  </ControlTemplate>
-              </Setter.Value>
-          </Setter>
+          <Setter Property="Padding" Value="5"/>
       </Style>
 
       <!-- Style for the Menu itself -->

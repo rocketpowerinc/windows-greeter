@@ -88,6 +88,8 @@ try {
       <Style TargetType="MenuItem">
           <Setter Property="Foreground" Value="White"/>
           <Setter Property="Background" Value="#2B2B2B"/>
+          <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
+          <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
       </Style>
