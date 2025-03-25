@@ -92,11 +92,20 @@ try {
           <Setter Property="FontWeight" Value="Bold"/>
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
-          <Style.Triggers>
-              <Trigger Property="IsMouseOver" Value="True">
-                  <Setter Property="Background" Value="red"/> <!-- Grey background on hover -->
-              </Trigger>
-          </Style.Triggers>
+          <Setter Property="Template">
+              <Setter.Value>
+                  <ControlTemplate TargetType="MenuItem">
+                      <Border x:Name="border" Background="{TemplateBinding Background}" BorderThickness="0">
+                          <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                      </Border>
+                      <ControlTemplate.Triggers>
+                          <Trigger Property="IsMouseOver" Value="True">
+                              <Setter Property="Background" Value="#808080" TargetName="border"/>
+                          </Trigger>
+                      </ControlTemplate.Triggers>
+                  </ControlTemplate>
+              </Setter.Value>
+          </Setter>
       </Style>
 
       <!-- Style for the Menu itself -->
