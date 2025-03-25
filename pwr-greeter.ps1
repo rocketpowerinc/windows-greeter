@@ -227,6 +227,7 @@ try {
 
       # Add the toolbar to the top of the Dotfiles grid
       [System.Windows.Controls.Grid]::SetRow($toolbar, 0)
+
       $dotfilesGrid.Children.Add($toolbar)
 
       # Load and execute the Dotfiles menu script.  This script should create the
@@ -236,8 +237,20 @@ try {
         $dotfilesContent = & $DotfilesMenuPath
 
         # Set the Dotfiles content to the second row of the Dotfiles grid
-        [System.Windows.Controls.Grid]::SetRow($dotfilesContent, 1)
-        $dotfilesGrid.Children.Add($dotfilesContent)
+        if ($dotfilesContent -is [System.Windows.UIElement]) {
+          [System.Windows.Controls.Grid]::SetRow($dotfilesContent, 1)
+          $dotfilesGrid.Children.Add($dotfilesContent)
+        }
+        else {
+          Write-Warning "Dotfiles menu script did not return a valid WPF element."
+          # Optionally, add an error message to the Dotfiles grid.
+          $errorText = New-Object System.Windows.Controls.TextBlock
+          $errorText.Text = "Error: Dotfiles menu script did not return a valid WPF element."
+          $errorText.Foreground = [System.Windows.Media.Brushes]::Red
+          [System.Windows.Controls.Grid]::SetRow($errorText, 1)
+          $dotfilesGrid.Children.Add($errorText)
+        }
+
       }
       else {
         Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
