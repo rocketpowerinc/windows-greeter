@@ -88,27 +88,8 @@ try {
       <Style TargetType="MenuItem">
           <Setter Property="Foreground" Value="White"/>
           <Setter Property="Background" Value="#2B2B2B"/>
-          <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
-          <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
-          <Setter Property="Padding" Value="5"/>
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Center align text -->
-          <Setter Property="VerticalContentAlignment" Value="Center"/>
-          <Setter Property="Cursor" Value="Hand"/> <!-- Indicate clickable items -->
-          <Setter Property="Template">
-              <Setter.Value>
-                  <ControlTemplate TargetType="MenuItem">
-                      <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                      </Border>
-                      <ControlTemplate.Triggers>
-                          <Trigger Property="IsMouseOver" Value="True">
-                              <Setter Property="Background" Value="Gray"/> <!-- Highlight on hover -->
-                          </Trigger>
-                      </ControlTemplate.Triggers>
-                  </ControlTemplate>
-              </Setter.Value>
-          </Setter>
+          <Setter Property="Padding" Value="5"/>
       </Style>
 
       <!-- Style for the Menu itself -->
