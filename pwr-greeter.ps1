@@ -119,7 +119,7 @@
 </Window>
 "@
   # Load the XAML into a reader
-  $reader = New-Object System.Xml.XmlNodeReader ($xaml.ReadNode($xaml.CreateNavigator()))
+  $reader = New-Object System.Xml.XmlNodeReader ($xaml.DocumentElement)
   $window = [Windows.Markup.XamlReader]::Load($reader)
 
   # Enable dragging the window by the toolbar
