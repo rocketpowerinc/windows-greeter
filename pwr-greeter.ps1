@@ -93,6 +93,13 @@ try {
           <Setter Property="BorderBrush" Value="Transparent"/> <!-- Remove border -->
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
+
+          <!-- Trigger for hover effect -->
+          <Style.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                  <Setter Property="Background" Value="Gray"/> <!-- Darker background on hover -->
+              </Trigger>
+          </Style.Triggers>
       </Style>
 
       <!-- Style for the Menu itself -->
