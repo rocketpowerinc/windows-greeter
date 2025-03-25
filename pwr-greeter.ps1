@@ -121,7 +121,7 @@ try {
               <Menu Grid.Column="0" VerticalAlignment="Center">
                   <Menu.Resources>
                       <Style TargetType="MenuItem">
-                          <Setter Property="Foreground" Value="White"/>
+                          <Setter Property="Foreground" Value="#2b2b2b"/>
                           <Style.Triggers>
                               <Trigger Property="IsMouseOver" Value="True">
                                   <Setter Property="Foreground" Value="Gray"/>
