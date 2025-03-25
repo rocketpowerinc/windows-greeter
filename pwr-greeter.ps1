@@ -96,7 +96,7 @@ try {
 
       <!-- Style for the Menu itself -->
       <Style TargetType="Menu">
-          <Setter Property="Background" Value="#2B2B2B"/>
+          <Setter Property="Background" Value="#1F1F1F"/>
           <Setter Property="BorderThickness" Value="0"/>
       </Style>
 
@@ -109,7 +109,7 @@ try {
       </Grid.RowDefinitions>
 
       <!-- Toolbar -->
-      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
+      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,0">
           <Grid>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto"/>
