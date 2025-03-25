@@ -3,7 +3,7 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options. The "About" window now opens in the center and displays the repository website.
 
 .NOTES
 * Requires the PresentationFramework assembly.
@@ -24,6 +24,10 @@ try {
   #* Asset Paths - Consider making these configurable or relative to the script's location
   $firefoxImagePath = Join-Path $PSScriptRoot "Assets\firefox.png" #Relative path
   #$firefoxImagePath = "$env:USERPROFILE\Downloads\windows-greeter\Assets\firefox.png" #Original, absolute path.
+
+  # Define Version and Repository URL
+  $version = "1.0.0" # Replace with your actual version
+  $repoUrl = "https://github.com/rocketpowerinc"
 
   # Load the XAML with a custom dark toolbar and no native title bar
   $xaml = [xml]@"
@@ -272,27 +276,79 @@ try {
       # Create a new window for the About dialog
       $aboutWindow = New-Object System.Windows.Window
       $aboutWindow.Title = "About"
-      $aboutWindow.Width = 300
-      $aboutWindow.Height = 150
-      $aboutWindow.WindowStartupLocation = "CenterOwner"
-      $aboutWindow.Background = [System.Windows.Media.Brushes]::WhiteSmoke
+      $aboutWindow.Width = 400  # Increased width for the link
+      $aboutWindow.Height = 200 # Increased height for the link and spacing
+      $aboutWindow.WindowStartupLocation = "CenterOwner" #This works with ShowDialog()
+      $aboutWindow.Owner = $window # Set the owner to center relative to the main window
+      $aboutWindow.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43)) # Use the same dark background
 
       # Create a Grid for the About window
       $aboutGrid = New-Object System.Windows.Controls.Grid
+      $aboutGrid.Margin = "10" # Add some margin for better spacing
       $aboutWindow.Content = $aboutGrid
+
+      #Row Definitions
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 0
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1
+      $aboutGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 2
+
 
       # Add a TextBlock with the version information
       $aboutText = New-Object System.Windows.Controls.TextBlock
-      $aboutText.Text = "Power Greeter v1.0.0" # Replace with your version number
+      $aboutText.Text = "Power Greeter v$version"  # Include the version
       $aboutText.FontSize = 16
       $aboutText.FontWeight = "Bold"
+      $aboutText.Foreground = [System.Windows.Media.Brushes]::White
       $aboutText.HorizontalAlignment = "Center"
       $aboutText.VerticalAlignment = "Center"
+      [System.Windows.Controls.Grid]::SetRow($aboutText, 0)
       $aboutGrid.Children.Add($aboutText)
+
+      # Add a TextBlock for the repository URL
+      $aboutLink = New-Object System.Windows.Controls.TextBlock
+      $aboutLink.Text = "Visit our GitHub Repository"
+      $aboutLink.FontSize = 14
+      $aboutLink.Foreground = [System.Windows.Media.Brushes]::LightBlue # A color that suggests a link
+      $aboutLink.HorizontalAlignment = "Center"
+      $aboutLink.VerticalAlignment = "Center"
+      $aboutLink.Cursor = "Hand" # Change cursor to a hand
+      [System.Windows.Controls.Grid]::SetRow($aboutLink, 1)
+
+      # Add the click event to the link
+      $aboutLink.Add_MouseLeftButtonDown({
+          try {
+            Start-Process "explorer" $repoUrl # Open the URL in the default browser
+          }
+          catch {
+            Write-Warning "Could not open the URL in the browser."
+          }
+
+        })
+
+
+      $aboutGrid.Children.Add($aboutLink)
+
+      # Add a TextBlock with the version information
+      $aboutClose = New-Object System.Windows.Controls.Button
+      $aboutClose.Content = "Close"  # Include the version
+      $aboutClose.FontSize = 14
+      $aboutClose.FontWeight = "Bold"
+      $aboutClose.Foreground = [System.Windows.Media.Brushes]::White
+      $aboutClose.Background = New-Object System.Windows.Media.SolidColorBrush([System.Windows.Media.Color]::FromRgb(43, 43, 43))
+      $aboutClose.HorizontalAlignment = "Center"
+      $aboutClose.VerticalAlignment = "Center"
+      $aboutClose.Cursor = "Hand" # Change cursor to a hand
+      [System.Windows.Controls.Grid]::SetRow($aboutClose, 2)
+      $aboutClose.Add_Click({
+          $aboutWindow.Close()
+        })
+      $aboutGrid.Children.Add($aboutClose)
+
 
       # Show the About window
       $aboutWindow.ShowDialog()
     })
+
 
   # Show the window
   $window.ShowDialog()
