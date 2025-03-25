@@ -30,7 +30,8 @@ try {
   $repoUrl = "https://github.com/rocketpowerinc"
 
   # Load the XAML with a custom dark toolbar and no native title bar
-  $xaml = [xml]@"
+  # Using [string] to ensure the XAML is treated as a string for consistency
+  $xaml = [string]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="pwr-greeter"
@@ -166,11 +167,28 @@ try {
 </Window>
 "@
 
-  # Load the XAML into a reader
-  $reader = New-Object System.Xml.XmlNodeReader($xaml.DocumentElement)
-  $window = [Windows.Markup.XamlReader]::Load($reader)
+  # Use a single, reusable XmlReaderSettings object
+  $xmlReaderSettings = New-Object System.Xml.XmlReaderSettings
+  $xmlReaderSettings.DtdProcessing = [System.Xml.DtdProcessing]::Prohibit # Security: Prevent DTD processing
+  $xmlReaderSettings.XmlResolver = $null # Security: Disable external entity resolution
 
-  # Store references to key elements
+  # Load the XAML into a reader
+  try {
+    $reader = [System.Xml.XmlReader]::Create([System.IO.StringReader]::new($xaml), $xmlReaderSettings)  # Use a StringReader for the XAML
+    $window = [Windows.Markup.XamlReader]::Load($reader)
+  }
+  catch {
+    Write-Error "Error loading XAML for main window: $($_.Exception.Message)"
+    throw  # Re-throw the exception so the outer catch block can handle it
+  }
+  finally {
+    # Ensure the reader is closed, even if an exception occurs
+    if ($reader) {
+      $reader.Close()
+    }
+  }
+
+  # Store references to key elements (only after successfully loading the XAML)
   $rootGrid = $window.FindName("RootGrid")
   $mainMenuGrid = $window.FindName("MainMenuGrid")
 
@@ -229,7 +247,6 @@ try {
       }
     })
 
-
   $window.FindName("DirectoriesButton").Add_Click({
       Start-Process "explorer"
     })
@@ -253,7 +270,6 @@ try {
       Write-Host "Members Only functionality not implemented."
       # TODO: Implement members only functionality
     })
-
 
   $PersistantWindowsPath = Join-Path $PSScriptRoot "button_persistant_windows.ps1"
   $window.FindName("PersisantWindowsButton").Add_Click({
@@ -369,9 +385,16 @@ try {
 
 }
 catch {
-  Write-Error "An error occurred: $($_.Exception.Message)"
+  Write-Error "An unrecoverable error occurred: $($_.Exception.Message)"
   Write-Error $_.Exception.StackTrace
 }
 finally {
   # Optional cleanup: Dispose of WPF objects and force garbage collection
+  if ($window) {
+    $window.Close()
+    $window.Content = $null
+  }
+  $window = $null
+  [gc]::Collect()
+  [gc]::WaitForPendingFinalizers()
 }
