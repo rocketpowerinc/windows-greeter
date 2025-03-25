@@ -8,13 +8,13 @@
   # Load the XAML with a custom dark toolbar and no native title bar
   $xaml = [xml]@"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      Title="pwr-greeter"
-      Height="700" Width="600"
-      Background="#2B2B2B"
-      WindowStyle="None"
-      ResizeMode="CanResizeWithGrip"
-      AllowsTransparency="True">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="pwr-greeter"
+        Height="700" Width="600"
+        Background="#2B2B2B"
+        WindowStyle="None"
+        ResizeMode="CanResizeWithGrip"
+        AllowsTransparency="True">
   <Window.Resources>
       <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0,0" EndPoint="1,1">
           <GradientStop Color="#2b2b2b" Offset="0.0"/>
