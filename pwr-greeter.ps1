@@ -306,7 +306,7 @@ try {
 
       # Add a TextBlock for the repository URL
       $aboutLink = New-Object System.Windows.Controls.TextBlock
-      $aboutLink.Text = "Visit our GitHub Repository"
+      $aboutLink.Text = "Visit Rocket-Power-Included GitHub Repository"
       $aboutLink.FontSize = 14
       $aboutLink.Foreground = [System.Windows.Media.Brushes]::LightBlue # A color that suggests a link
       $aboutLink.HorizontalAlignment = "Center"
