@@ -90,12 +90,8 @@ try {
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
-          <Setter Property="Padding" Value="5"/>
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="HorizontalContentAlignment" Value="Center"/> <!-- Center align text -->
-          <Setter Property="VerticalContentAlignment" Value="Center"/>
-          <Setter Property="Cursor" Value="Hand"/> <!-- Indicate clickable items -->
-          <Setter Property="Template">
+          <Setter Property="Padding" Value="5"/>
       </Style>
 
       <!-- Style for the Menu itself -->
