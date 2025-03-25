@@ -212,10 +212,18 @@ try {
       # Store a reference to the toolbar
       $toolbar = $window.FindName("Toolbar")
 
+      # Get a reference to the main grid
+      $mainGrid = $window.FindName("MainGrid")
+
       # Create a new Grid to hold the toolbar and the Dotfiles menu
       $dotfilesGrid = New-Object System.Windows.Controls.Grid
+
+      # Add Row Definitions to Dotfiles Grid
       $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{ Height = "Auto" }))  # Toolbar Row
       $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) # Dotfiles Content Row
+
+      # Remove the Toolbar from the MainGrid so we can add it to the new DotfilesGrid
+      $mainGrid.Children.Remove($toolbar)
 
       # Add the toolbar to the top of the Dotfiles grid
       [System.Windows.Controls.Grid]::SetRow($toolbar, 0)
@@ -241,13 +249,14 @@ try {
         $dotfilesGrid.Children.Add($errorText)
       }
 
-      # Replace the MainMenuGrid with the Dotfiles grid
-      $mainGrid = $window.FindName("MainGrid")
-      $mainGrid.Children.Remove($global:MainMenuGrid)  # Remove the old menu
+      # Remove the MainMenuGrid (original button grid) from the MainGrid
+      $mainGrid.Children.Remove($global:MainMenuGrid)
+
+      # Set the Dotfiles Grid to be in Row 2 (where MainMenuGrid originally was)
       [System.Windows.Controls.Grid]::SetRow($dotfilesGrid, 2)
-      $mainGrid.Children.Add($dotfilesGrid) # Add the new menu
 
-
+      # Add DotfilesGrid to MainGrid
+      $mainGrid.Children.Add($dotfilesGrid)
     })
 
 
