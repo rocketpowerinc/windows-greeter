@@ -212,21 +212,22 @@ try {
 
   $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
   $window.FindName("DotfilesButton").Add_Click({
-      # Call the Dotfiles menu script
-      if (Test-Path $DotfilesMenuPath) {
+      try {
         # Remove the MainMenuGrid from the RootGrid
         $rootGrid.Children.Remove($mainMenuGrid)
 
         # Execute the Dotfiles menu script, passing the main window and root grid
         & $DotfilesMenuPath -ParentWindow $window -RootGrid $rootGrid
 
-        # After the Dotfiles menu is closed, add the MainMenuGrid back
-        # This assumes the Dotfiles menu script *removes* itself from the RootGrid.
-        # If it doesn't you will need to remove it here.
-
       }
-      else {
-        Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
+      catch {
+        Write-Warning "Error running Dotfiles menu script: $($_.Exception.Message)"
+      }
+      finally {
+        # *Always* re-add the MainMenuGrid, even if the script failed
+        if ($rootGrid.Children -notcontains $mainMenuGrid) {
+          $rootGrid.Children.Add($mainMenuGrid)
+        }
       }
     })
 
