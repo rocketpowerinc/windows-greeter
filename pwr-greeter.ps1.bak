@@ -3,7 +3,7 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.  The "About" window now opens in the center and displays the repository website.  When the Dotfiles button is clicked, the custom toolbar is retained in the Dotfiles menu.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options. The "About" window now opens in the center and displays the repository website.
 
 .NOTES
 * Requires the PresentationFramework assembly.
@@ -99,7 +99,7 @@ try {
       </Style>
 
   </Window.Resources>
-  <Grid x:Name="MainGrid" Margin="0">
+  <Grid Margin="0">
       <Grid.RowDefinitions>
           <RowDefinition Height="40"/>
           <RowDefinition Height="Auto"/>
@@ -160,7 +160,7 @@ try {
           <Button x:Name="TitusWinUtilButton" Grid.Column="0" Grid.Row="2" Content="💻 Titus WinUtil" Margin="10"/>
           <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
           <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
-          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistent Windows" Margin="10"/>
+          <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
       </Grid>
   </Grid>
 </Window>
@@ -208,33 +208,18 @@ try {
 
   $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
   $window.FindName("DotfilesButton").Add_Click({
-      # Store the main window's content
-      $mainContent = $window.Content
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
 
-      # Create a new grid to hold the toolbar and dotfiles content
-      $newGrid = New-Object System.Windows.Controls.Grid
-      #Add row definitions
-      $newGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = "Auto" })) #Row 0 for toolbar
-      $newGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1 for main content
-
-      # Get the toolbar from the main window (assuming it's the first child in the main grid)
-      $toolbar = $mainContent.Children[0]
-      $mainContent.Children.RemoveAt(0) #Remove toolbar from the old grid
-
-      # Add the toolbar to the new grid
-      [System.Windows.Controls.Grid]::SetRow($toolbar, 0)
-      $newGrid.Children.Add($toolbar)
-
-      # create the content that was previous assigned to the grid row 2
-      $oldcontent = $mainContent.Children[1]
-      $mainContent.Children.RemoveAt(1)
-
-      #Add old content to new grid
-      [System.Windows.Controls.Grid]::SetRow($oldcontent, 1)
-      $newGrid.Children.Add($oldcontent)
-
-      # Set the new grid as the window content
-      $window.Content = $newGrid
+      # Call the Dotfiles menu script
+      if (Test-Path $DotfilesMenuPath) {
+        & $DotfilesMenuPath
+      }
+      else {
+        Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
+      }
     })
 
 
