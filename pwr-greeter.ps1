@@ -90,6 +90,7 @@ try {
           <Setter Property="Background" Value="#2B2B2B"/>
           <Setter Property="FontSize" Value="12"/> <!-- Match button font size -->
           <Setter Property="FontWeight" Value="Bold"/> <!-- Match button font weight -->
+          <Setter Property="BorderBrush" Value="Transparent"/> <!-- Remove border -->
           <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="Padding" Value="5"/>
       </Style>
