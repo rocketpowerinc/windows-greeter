@@ -3,7 +3,7 @@
 A custom greeter window using WPF.
 
 .DESCRIPTION
-This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.  The "About" window now opens in the center and displays the repository website.  When the Dotfiles button is clicked, the custom toolbar is retained in the Dotfiles menu.
+This script creates a custom greeter window using WPF, providing a user interface with various buttons for launching applications and utilities. It features a dark theme, custom toolbar, and draggable window. It also includes a hamburger menu with "About" and "Toggle Theme" options.  The "About" window now opens in the center and displays the repository website.  When the Dotfiles button is clicked, the custom toolbar is integrated into the existing Dotfiles menu.
 
 .NOTES
 * Requires the PresentationFramework assembly.
@@ -107,7 +107,7 @@ try {
       </Grid.RowDefinitions>
 
       <!-- Toolbar -->
-      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
+      <Border x:Name="Toolbar" Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
           <Grid>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto"/>
@@ -134,9 +134,7 @@ try {
       <Label Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,10">
           <TextBlock Text="🚀⚡ Welcome to the Power Greeter ⚡🚀" Foreground="Gold" FontSize="20" FontWeight="Bold" Effect="{StaticResource ButtonShadow}"/>
       </Label>
-      <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,50,0,0"
-          Text="Windows Edition" Foreground="#0078D7" FontSize="16" FontWeight="SemiBold"/>
-      <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,20,0,0">
+      <Grid Grid.Row="2" x:Name="MainMenuGrid" HorizontalAlignment="Center" Margin="0,20,0,0">
           <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*"/>
               <ColumnDefinition Width="*"/>
@@ -208,33 +206,48 @@ try {
 
   $DotfilesMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
   $window.FindName("DotfilesButton").Add_Click({
-      # Store the main window's content
-      $mainContent = $window.Content
+      # Store the main menu grid for later use (if you need to go back)
+      $global:MainMenuGrid = $window.FindName("MainMenuGrid")
 
-      # Create a new grid to hold the toolbar and dotfiles content
-      $newGrid = New-Object System.Windows.Controls.Grid
-      #Add row definitions
-      $newGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{Height = "Auto" })) #Row 0 for toolbar
-      $newGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) #Row 1 for main content
+      # Store a reference to the toolbar
+      $toolbar = $window.FindName("Toolbar")
 
-      # Get the toolbar from the main window (assuming it's the first child in the main grid)
-      $toolbar = $mainContent.Children[0]
-      $mainContent.Children.RemoveAt(0) #Remove toolbar from the old grid
+      # Create a new Grid to hold the toolbar and the Dotfiles menu
+      $dotfilesGrid = New-Object System.Windows.Controls.Grid
+      $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition -Property @{ Height = "Auto" }))  # Toolbar Row
+      $dotfilesGrid.RowDefinitions.Add((New-Object System.Windows.Controls.RowDefinition)) # Dotfiles Content Row
 
-      # Add the toolbar to the new grid
+      # Add the toolbar to the top of the Dotfiles grid
       [System.Windows.Controls.Grid]::SetRow($toolbar, 0)
-      $newGrid.Children.Add($toolbar)
+      $dotfilesGrid.Children.Add($toolbar)
 
-      # create the content that was previous assigned to the grid row 2
-      $oldcontent = $mainContent.Children[1]
-      $mainContent.Children.RemoveAt(1)
+      # Load and execute the Dotfiles menu script.  This script should create the
+      # Dotfiles menu content and return a WPF element containing that content.
+      if (Test-Path $DotfilesMenuPath) {
+        #Execute script and store result
+        $dotfilesContent = & $DotfilesMenuPath
 
-      #Add old content to new grid
-      [System.Windows.Controls.Grid]::SetRow($oldcontent, 1)
-      $newGrid.Children.Add($oldcontent)
+        # Set the Dotfiles content to the second row of the Dotfiles grid
+        [System.Windows.Controls.Grid]::SetRow($dotfilesContent, 1)
+        $dotfilesGrid.Children.Add($dotfilesContent)
+      }
+      else {
+        Write-Warning "Dotfiles menu script not found at '$DotfilesMenuPath'."
+        # Optionally, add an error message to the Dotfiles grid.
+        $errorText = New-Object System.Windows.Controls.TextBlock
+        $errorText.Text = "Error: Dotfiles menu script not found."
+        $errorText.Foreground = [System.Windows.Media.Brushes]::Red
+        [System.Windows.Controls.Grid]::SetRow($errorText, 1)
+        $dotfilesGrid.Children.Add($errorText)
+      }
 
-      # Set the new grid as the window content
-      $window.Content = $newGrid
+      # Replace the MainMenuGrid with the Dotfiles grid
+      $mainGrid = $window.FindName("MainGrid")
+      $mainGrid.Children.Remove($global:MainMenuGrid)  # Remove the old menu
+      [System.Windows.Controls.Grid]::SetRow($dotfilesGrid, 2)
+      $mainGrid.Children.Add($dotfilesGrid) # Add the new menu
+
+
     })
 
 
