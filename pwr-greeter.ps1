@@ -109,7 +109,7 @@ try {
       </Grid.RowDefinitions>
 
       <!-- Toolbar -->
-      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#2B2B2B" BorderThickness="0,0,0,1">
+      <Border Grid.Row="0" Background="{StaticResource ToolbarBackground}" BorderBrush="#3C3C3C" BorderThickness="0,0,0,1">
           <Grid>
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto"/>
@@ -119,7 +119,17 @@ try {
 
               <!-- Hamburger Menu -->
               <Menu Grid.Column="0" VerticalAlignment="Center">
-                  <MenuItem Header="☰" Foreground="White" FontSize="16" FontWeight="Bold">
+                  <Menu.Resources>
+                      <Style TargetType="MenuItem">
+                          <Setter Property="Foreground" Value="White"/>
+                          <Style.Triggers>
+                              <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter Property="Foreground" Value="Gray"/>
+                              </Trigger>
+                          </Style.Triggers>
+                      </Style>
+                  </Menu.Resources>
+                  <MenuItem Header="☰" FontSize="16" FontWeight="Bold">
                       <MenuItem x:Name="ToggleThemeMenuItem" Header="Toggle Theme"/>
                       <MenuItem x:Name="AboutMenuItem" Header="About"/>
                   </MenuItem>
