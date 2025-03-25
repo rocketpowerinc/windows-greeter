@@ -129,7 +129,7 @@ try {
                               <Setter Property="Padding" Value="5"/>
                               <Style.Triggers>
                                   <Trigger Property="IsHighlighted" Value="True">
-                                      <Setter Property="Background" Value="DarkGray"/>
+                                      <Setter Property="Background" Value="#2B2B2B"/>
                                       <Setter Property="Foreground" Value="White"/>
                                   </Trigger>
                               </Style.Triggers>
