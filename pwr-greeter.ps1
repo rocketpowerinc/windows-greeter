@@ -96,19 +96,6 @@ try {
           <Setter Property="VerticalContentAlignment" Value="Center"/>
           <Setter Property="Cursor" Value="Hand"/> <!-- Indicate clickable items -->
           <Setter Property="Template">
-              <Setter.Value>
-                  <ControlTemplate TargetType="MenuItem">
-                      <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
-                          <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                      </Border>
-                      <ControlTemplate.Triggers>
-                          <Trigger Property="IsMouseOver" Value="True">
-                              <Setter Property="Background" Value="Gray"/> <!-- Highlight on hover -->
-                          </Trigger>
-                      </ControlTemplate.Triggers>
-                  </ControlTemplate>
-              </Setter.Value>
-          </Setter>
       </Style>
 
       <!-- Style for the Menu itself -->
