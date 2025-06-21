@@ -163,6 +163,7 @@ try {
           <Button x:Name="ScriptBinButton" Grid.Column="1" Grid.Row="2" Content="🗑️ Script Bin" Margin="10"/>
           <Button x:Name="MembersOnlyButton" Grid.Column="0" Grid.Row="3" Content="🔒 Members Only" Margin="10"/>
           <Button x:Name="PersisantWindowsButton" Grid.Column="1" Grid.Row="3" Content="🪟 Persistant Windows" Margin="10" FontFamily="Segoe UI Emoji"/>
+          <Button x:Name="ServersButton" Grid.Column="0" Grid.Row="4" Content="🐳 Servers" Margin="10"/>
       </Grid>
   </Grid>
 </Window>
