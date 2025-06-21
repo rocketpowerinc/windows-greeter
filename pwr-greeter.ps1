@@ -189,7 +189,7 @@ try {
   # Add click actions for main buttons
   $window.FindName("ReadMeButton").Add_Click({
       try {
-        Start-Process "firefox" "https://rocketdashboard.notion.site/pwr-windows-Cheat-Sheet-1b8627bc6fd880998e75e7191f8ffffe"
+        Start-Process "firefox" "https://rocketdashboard.notion.site/Welcome-to-RocketPowerInc-1a1627bc6fd8805ab693f164a1b3ceda"
       }
       catch {
         Write-Warning "Failed to open Firefox.  Is Firefox installed?"
