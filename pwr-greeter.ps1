@@ -262,6 +262,11 @@ try {
 
     })
 
+    $window.FindName("ServersButton").Add_Click({
+      Write-Host "Servers baby."
+      #TODO: Implement members only functionality
+    })
+
   # Add click actions for menu items
   $window.FindName("ToggleThemeMenuItem").Add_Click({
       if ($window.Background -is [System.Windows.Media.SolidColorBrush] -and `
