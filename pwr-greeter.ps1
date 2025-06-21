@@ -156,7 +156,7 @@ try {
                   <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
               </StackPanel>
           </Button>
-          <Button x:Name="ReadMeButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
+          <Button x:Name="ServerButton" Grid.Column="0" Grid.Row="0" ToolTip="Open the ReadMe documentation." Margin="10">
               <StackPanel Orientation="Horizontal">
                   <Image Width="20" Height="20" Margin="5,0,10,0" Source="file:///$firefoxImagePath"/>
                   <TextBlock Text="ReadMe" VerticalAlignment="Center"/>
