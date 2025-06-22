@@ -32,17 +32,17 @@ function New-Button($content) {
 }
 
 # Create Buttons and add them to the StackPanel
-$refresh_Dotfiles_Button = New-Button "♻️ Refresh ddddDotfiles"
+$refresh_Dotfiles_Button = New-Button "📥 Selfhost AkaiGrid"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
-$source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
-$buttonsPanel.Children.Add($source_PWSH_Profile_Button)
+#$source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
+#$buttonsPanel.Children.Add($source_PWSH_Profile_Button)
 
-$source_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
-$buttonsPanel.Children.Add($source_Default_Powershell_Profile_Button)
+#$source_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
+#$buttonsPanel.Children.Add($source_Default_Powershell_Profile_Button)
 
-$source_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
-$buttonsPanel.Children.Add($source_WSL_Bash_Dotfile_Button)
+#$source_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
+#$buttonsPanel.Children.Add($source_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
 $dotfilesMenu.Children.Add($buttonsPanel)
