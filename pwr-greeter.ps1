@@ -263,7 +263,7 @@ try {
     })
 
   #*#################################  SERVERS MENU BUTTON  ##############################################
-  $ServersMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
+  $ServersMenuPath = Join-Path $PSScriptRoot "button_servers_menu.ps1"
   $window.FindName("ServersButton").Add_Click({
       # Store the root Grid of the main menu
       $global:MainMenuGrid = $window.Content
