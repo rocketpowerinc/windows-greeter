@@ -32,17 +32,17 @@ function New-Button($content) {
 }
 
 # Create Buttons and add them to the StackPanel
-$refresh_Dotfiles_Button = New-Button "📥 Selfhost AkaiGrid"
-$buttonsPanel.Children.Add($refresh_Dotfiles_Button)
+$Selfhost_AkaiGrid_Button = New-Button "📥 Selfhost AkaiGrid"
+$buttonsPanel.Children.Add($Selfhost_AkaiGrid_Button)
 
-#$source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
-#$buttonsPanel.Children.Add($source_PWSH_Profile_Button)
+$source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
+$buttonsPanel.Children.Add($source_PWSH_Profile_Button)
 
-#$source_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
-#$buttonsPanel.Children.Add($source_Default_Powershell_Profile_Button)
+$source_Default_Powershell_Profile_Button = New-Button "📋 Source Powershell Profile"
+$buttonsPanel.Children.Add($source_Default_Powershell_Profile_Button)
 
-#$source_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
-#$buttonsPanel.Children.Add($source_WSL_Bash_Dotfile_Button)
+$source_WSL_Bash_Dotfile_Button = New-Button "📋 Source WSL bashrc"
+$buttonsPanel.Children.Add($source_WSL_Bash_Dotfile_Button)
 
 # Add buttons panel to Grid at Row 1
 $dotfilesMenu.Children.Add($buttonsPanel)
@@ -75,35 +75,86 @@ $backButton.Add_Click({
 
 #*################### Button Click Handlers ######################
 
-$refresh_Dotfiles_Button.Add_Click({
-    try {
-      # Define the target directory for the dotfiles
-      $dotfilesPath = Join-Path $env:USERPROFILE "Github-pwr\dotfiles"
+$Selfhost_AkaiGrid_Button.Add_Click({
+    # Define paths
+    $downloadUrl = (Invoke-RestMethod "https://api.github.com/repos/louislam/akaigrid/releases/latest").assets[0].browser_download_url
+    $archivePath = "$env:USERPROFILE\Downloads\akaigrid-latest.7z"
+    $destination = "$env:USERPROFILE\Downloads\akaigrid"
 
-      # Ensure the parent directory exists
-      $githubPath = Join-Path $env:USERPROFILE "Github-pwr"
-      if (-not (Test-Path $githubPath)) {
-        New-Item -ItemType Directory -Path $githubPath -Force | Out-Null
+    # Download the file
+    Invoke-WebRequest -Uri $downloadUrl -OutFile $archivePath
+
+    # Extract using 7-Zip
+    & "C:\Program Files\7-Zip\7z.exe" x $archivePath -o"$destination" -y
+
+    # Delete .7z file
+    & "C:\Program Files\7-Zip\7z.exe" x $archivePath -o"$destination" -y
+    Remove-Item -Path $archivePath
+
+    Move-Item -Path "$destination\*" -Destination "$env:USERPROFILE" -Force
+
+    Remove-Item -Path "$destination"
+
+    Add-Type -AssemblyName System.Windows.Forms
+
+    # Open folder picker
+    $dialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    $dialog.Description = "Choose a folder for AkaiGrid"
+    $dialog.ShowNewFolderButton = $true
+
+    if ($dialog.ShowDialog() -eq "OK") {
+      $selectedPath = $dialog.SelectedPath
+      $configPath = "$env:USERPROFILE\AkaiGrid\config.yaml"
+
+      if (Test-Path $configPath) {
+        $lines = Get-Content $configPath
+        $newLines = @()
+        $inFoldersBlock = $false
+
+        foreach ($line in $lines) {
+          if ($line -match "^\s*folders:\s*$") {
+            $newLines += $line
+            $inFoldersBlock = $true
+            continue
+          }
+
+          if ($inFoldersBlock) {
+            if ($line -match "^\s*- ") {
+              # Skip existing folder lines
+              continue
+            }
+            else {
+              # End of folders block
+              $newLines += "  - $selectedPath"
+              $inFoldersBlock = $false
+            }
+          }
+
+          $newLines += $line
+        }
+
+        # If folders were at the end, append the selected folder path
+        if ($inFoldersBlock) {
+          $newLines += "  - $selectedPath"
+        }
+
+        Set-Content -Path $configPath -Value $newLines -Encoding UTF8
+        Write-Host "✅ Folder list updated with: $selectedPath"
       }
-
-      # Remove the existing dotfiles directory if it exists
-      if (Test-Path $dotfilesPath) {
-        Remove-Item -Recurse -Force -Path $dotfilesPath
+      else {
+        Write-Host "❌ Config file not found at $configPath"
       }
-
-      # Clone the dotfiles repository
-      git clone https://github.com/rocketpowerinc/dotfiles $dotfilesPath
-
-      # Display a success message
-      Write-Host "All dotfiles refreshed!" -ForegroundColor Green
     }
-    catch {
-      # Handle errors and display an error message
-      Write-Host "An error occurred while refreshing dotfiles: $($_.Exception.Message)" -ForegroundColor Red
+    else {
+      Write-Host "🚫 Folder selection canceled."
     }
+
+    Push-Location "$env:USERPROFILE\AkaiGrid"
+    & ".\AkaiGrid.exe"
+    Pop-Location
   })
 
-##############################################################################################################
+#*#############################################################################################################
 $source_PWSH_Profile_Button.Add_Click({
     try {
       # Define the path to the pwsh profile
