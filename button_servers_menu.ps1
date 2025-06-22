@@ -32,7 +32,7 @@ function New-Button($content) {
 }
 
 # Create Buttons and add them to the StackPanel
-$refresh_Dotfiles_Button = New-Button "♻️ Refresh Dotfiles"
+$refresh_Dotfiles_Button = New-Button "♻️ Refresh ddddDotfiles"
 $buttonsPanel.Children.Add($refresh_Dotfiles_Button)
 
 $source_PWSH_Profile_Button = New-Button "📋 Source pwsh 7+ Profile"
