@@ -262,10 +262,23 @@ try {
 
     })
 
-    $window.FindName("ServersButton").Add_Click({
-      Write-Host "Servers baby."
-      #TODO: Implement members only functionality
+  #*#################################  SERVERS MENU BUTTON  ##############################################
+  $ServersMenuPath = Join-Path $PSScriptRoot "button_dotfiles_menu.ps1"
+  $window.FindName("ServersButton").Add_Click({
+      # Store the root Grid of the main menu
+      $global:MainMenuGrid = $window.Content
+      # Reference the variable above to suppress vscode warning (optional)
+      [void]$global:MainMenuGrid
+
+      # Call the Servers menu script
+      if (Test-Path $ServersMenuPath) {
+        & $ServersMenuPath
+      }
+      else {
+        Write-Warning "Servers menu script not found at '$ServersMenuPath'."
+      }
     })
+  #*########################################################################################################
 
   # Add click actions for menu items
   $window.FindName("ToggleThemeMenuItem").Add_Click({
